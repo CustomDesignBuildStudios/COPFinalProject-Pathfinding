@@ -32,14 +32,9 @@ public class RTSCamera : MonoBehaviour
         {
             // Move the camera along its local Z-axis
             float zoomAmount = scroll * zoomSpeed * Time.deltaTime;
-            Vector3 newLocalPosition = mainCamera.transform.localPosition + mainCamera.transform.forward * zoomAmount;
+            Vector3 newLocalPosition = mainCamera.transform.position + mainCamera.transform.forward * zoomAmount;
 
-            // Clamp the camera's distance from the parent object
-            float distance = newLocalPosition.magnitude;
-            if (distance >= minZoomDistance && distance <= maxZoomDistance)
-            {
-                mainCamera.transform.localPosition = newLocalPosition;
-            }
+            mainCamera.transform.position = newLocalPosition;
         }
     }
 
