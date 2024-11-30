@@ -69,22 +69,36 @@ public class GameManager : MonoBehaviour
     //Returns true or false if was successful or is busy
     public bool GetPath(Node start, Node end, Action<List<Node>> callback)
     {
+        RunReport report = new RunReport(
+    SettingsManager.Instance.dataTypes,
+    SettingsManager.Instance.algoTypes,
+    SettingsManager.Instance.graphTypes,
+    SettingsManager.Instance.density,
+    SettingsManager.Instance.minWeight,
+    SettingsManager.Instance.maxWeight,
+    SettingsManager.Instance.GetSize(),
+    SettingsManager.Instance.gridSize,
+    SettingsManager.Instance.maxLineSize,
+    0
+    );
+
+
         if (graph == null || isRunning == true) return false;
         if (SettingsManager.Instance.algoTypes == AlgoTypes.BFS)
         {
-            StartCoroutine(BreadthFirstSearch.BFS_OnGraph(graph, start, end, callback));
+            StartCoroutine(BreadthFirstSearch.BFS_OnGraph(report,graph, start, end, callback));
         }
         else if (SettingsManager.Instance.algoTypes == AlgoTypes.DFS)
         {
-            StartCoroutine(DepthFirstSearch.DFS_OnGraph(graph, start, end, callback));
+            StartCoroutine(DepthFirstSearch.DFS_OnGraph(report,graph, start, end, callback));
         }
         else if (SettingsManager.Instance.algoTypes == AlgoTypes.Dijkstra)
         {
-            StartCoroutine(DijkstraAlgorithm.Dijkstra_OnGraph(graph, start, end, callback));
+            StartCoroutine(DijkstraAlgorithm.Dijkstra_OnGraph(report,graph, start, end, callback));
         }
         else if (SettingsManager.Instance.algoTypes == AlgoTypes.AStar)
         {
-            StartCoroutine(AStarAlgorithm.AStar_OnGraph(graph, start, end, callback));
+            StartCoroutine(AStarAlgorithm.AStar_OnGraph(report,graph, start, end, callback));
         }
         return true;
     }
@@ -134,6 +148,20 @@ public class GameManager : MonoBehaviour
 
         if (currentCoroutine != null) StopCoroutine(currentCoroutine);
 
+
+
+        RunReport report = new RunReport(
+            SettingsManager.Instance.dataTypes,
+            SettingsManager.Instance.algoTypes,
+            SettingsManager.Instance.graphTypes,
+            SettingsManager.Instance.density,
+            SettingsManager.Instance.minWeight,
+            SettingsManager.Instance.maxWeight,
+            SettingsManager.Instance.GetSize(),
+            SettingsManager.Instance.gridSize,
+            SettingsManager.Instance.maxLineSize,
+            0
+            );
 
 
         if (graphHasChanged || timesRan == 1)
@@ -186,7 +214,7 @@ public class GameManager : MonoBehaviour
 
         if (SettingsManager.Instance.algoTypes == AlgoTypes.BFS)
         {
-            currentCoroutine = StartCoroutine(BreadthFirstSearch.BFS_OnGraph(graph, startNode, endNode, (result) =>
+            currentCoroutine = StartCoroutine(BreadthFirstSearch.BFS_OnGraph(report, graph, startNode, endNode, (result) =>
             {
                 float endTime = Time.realtimeSinceStartup;
                 //dataPoints.Add(report);
@@ -198,7 +226,7 @@ public class GameManager : MonoBehaviour
         }
         else if (SettingsManager.Instance.algoTypes == AlgoTypes.DFS)
         {
-            currentCoroutine = StartCoroutine(DepthFirstSearch.DFS_OnGraph(graph, startNode, endNode, (result) =>
+            currentCoroutine = StartCoroutine(DepthFirstSearch.DFS_OnGraph(report, graph, startNode, endNode, (result) =>
             {
                 float endTime = Time.realtimeSinceStartup;
                 //dataPoints.Add(report);
@@ -208,7 +236,7 @@ public class GameManager : MonoBehaviour
         }
         else if (SettingsManager.Instance.algoTypes == AlgoTypes.Dijkstra)
         {
-            currentCoroutine = StartCoroutine(DijkstraAlgorithm.Dijkstra_OnGraph(graph, startNode, endNode, (result) =>
+            currentCoroutine = StartCoroutine(DijkstraAlgorithm.Dijkstra_OnGraph(report, graph, startNode, endNode, (result) =>
             {
                 float endTime = Time.realtimeSinceStartup;
                 //dataPoints.Add(report);
@@ -218,7 +246,7 @@ public class GameManager : MonoBehaviour
         }
         else if (SettingsManager.Instance.algoTypes == AlgoTypes.AStar)
         {
-            currentCoroutine = StartCoroutine(AStarAlgorithm.AStar_OnGraph(graph, startNode, endNode, (result) =>
+            currentCoroutine = StartCoroutine(AStarAlgorithm.AStar_OnGraph(report, graph, startNode, endNode, (result) =>
             {
                 float endTime = Time.realtimeSinceStartup;
                 //dataPoints.Add(report);

@@ -84,20 +84,21 @@ public class RTSCamera : MonoBehaviour
                 //Limits for drag
                 if(newPos.x < minX)
                 {
-                    newPos = new Vector3(minX, newPos.y, newPos.z);
+                    newPos = new Vector3(minX, 0, newPos.z);
                 }
                 if (newPos.x > maxX)
                 {
-                    newPos = new Vector3(maxX, newPos.y, newPos.z);
+                    newPos = new Vector3(maxX, 0, newPos.z);
                 }
                 if (newPos.z < minZ)
                 {
-                    newPos = new Vector3(newPos.x, newPos.y, minZ);
+                    newPos = new Vector3(newPos.x, 0, minZ);
                 }
                 if (newPos.z > maxZ)
                 {
-                    newPos = new Vector3(newPos.x, newPos.y, maxZ);
+                    newPos = new Vector3(newPos.x, 0, maxZ);
                 }
+                newPos = new Vector3(newPos.x, 0, newPos.z);
                 cameraParent.position = newPos;
             }
         }

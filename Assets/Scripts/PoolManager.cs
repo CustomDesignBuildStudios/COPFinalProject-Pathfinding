@@ -36,7 +36,31 @@ public class PoolManager : MonoBehaviour
         agents = new List<NPCAgent>();
         edges = new List<GameObject>();
         nodes = new List<GameObject>();
+
+        StartCoroutine(Setup());
     }
+
+    public IEnumerator Setup()
+    {
+        List<GameObject> newEdges = new List<GameObject>();
+        List<GameObject> newNodes = new List<GameObject>();
+
+        for (int i = 0; i < 100000; i++)
+        {
+            newEdges.Add(GetEdge());
+            newNodes.Add(GetNode());
+            yield return new WaitForSeconds(0.01f);
+        }
+
+        for (int i = 0; i < 100000; i++)
+        {
+            newEdges[i].SetActive(false);
+            newNodes[i].SetActive(false);
+        }
+
+    }
+
+
 
     //Return agent from pool or create new one if all are being used
     public NPCAgent GetAgent()

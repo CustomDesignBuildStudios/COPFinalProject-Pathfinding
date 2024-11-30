@@ -1,11 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using static UnityEditor.PlayerSettings.Switch;
 
-public struct DataPoint
+
+public struct RunReport
 {
     public DataTypes dataTypes;
-    public AlgoTypes algoTypes;
+    public AlgoTypes algoType;
     public GraphTypes graphTypes;
     public int density;
     public int minWeight;
@@ -14,9 +18,23 @@ public struct DataPoint
     public int gridSize;
     public float maxLineSize;
     public float timeToRun;
-
+    //public float avgerageFPS;
+    public ReportTextUI textUI;
+    public RunReport(DataTypes dataTypes, AlgoTypes algoType, GraphTypes graphTypes,int density, int minWeight, int maxWeight, int size, int gridSize, float maxLineSize, float timeToRun)
+    {
+        this.dataTypes = dataTypes;
+        this.algoType = algoType;
+        this.graphTypes = graphTypes;
+        this.density = density;
+        this.minWeight = minWeight;
+        this.maxWeight = maxWeight;
+        this.size = size;
+        this.gridSize = gridSize;
+        this.maxLineSize = maxLineSize;
+        this.timeToRun = timeToRun;
+        this.textUI = null;
+    }
 }
-
 
 public class ReportsManager : MonoBehaviour
 {
@@ -32,9 +50,34 @@ public class ReportsManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        runs = new List<RunReport> ();
     }
 
 
+    public List<RunReport> runs;
+    public Transform reportsUIHolder;
+    public TMP_Text lastRunUIText;
+    public GameObject textPrefabGO;
+    public GameObject reportPanelGO;
 
+    public void ToggleReports()
+    {
+        if(reportPanelGO.activeSelf) reportPanelGO.SetActive (false);
+        else reportPanelGO.SetActive (true);
+    }
+    public void AddReport(RunReport report)
+    {
+        lastRunUIText.text = $"Last Run: {report.timeToRun}";
+
+
+        GameObject textGO = Instantiate(textPrefabGO, reportsUIHolder);
+        ReportTextUI reportText = textGO.GetComponent<ReportTextUI>();
+        report.textUI = reportText;
+        report.textUI.resultsText.text = report.timeToRun.ToString();
+        report.textUI.settingsText.text = $"Settings: {Enum.GetName(typeof(AlgoTypes), report.algoType)} | {Enum.GetName(typeof(GraphTypes), report.graphTypes)}";
+
+        runs.Add(report);
+    }
      
 }

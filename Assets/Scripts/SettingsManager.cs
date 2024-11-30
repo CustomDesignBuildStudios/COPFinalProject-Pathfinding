@@ -87,11 +87,16 @@ public abstract class Graph
     //Update the graph when obstacles are moved
     public void UpdateWithObstacles()
     {
+        foreach (var node in GetNodes())
+        {
+            node.Value.SetIsWalkable(true);
+        }
+
         foreach (var obstacle in SettingsManager.Instance.obstacles)
         {
             foreach (var node in GetNodes())
             {
-                if (obstacle.bounds.Contains(node.Value.GetPosition()))
+                if (obstacle.collider.bounds.Contains(node.Value.GetPosition()))
                 {
                     node.Value.SetIsWalkable(false);
                 }
@@ -128,7 +133,7 @@ public class SettingsManager : MonoBehaviour
     public Color lineTraversalColor;
     public Color lineNotWalkableColor;
 
-    public BoxCollider[] obstacles;
+    public Obstacle[] obstacles;
     public Terrain[] terrains;
     public Material nodeDefaultMaterial;
     public Material nodeVisitedMaterial;
@@ -183,7 +188,10 @@ public class SettingsManager : MonoBehaviour
 
         for (int i = 0; i < obstacles.Length; i++)
         {
-            obstacles[i].transform.localScale = obstacleSize * (type + 1);
+            if ((int)graphTypes > 2) type = 3;
+            obstacles[i].SetSize(type + 1);
+            startTrans.localScale = obstacleSize * (type + 1);
+            endTrans.localScale = obstacleSize * (type + 1);
         }
 
     }

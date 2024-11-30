@@ -10,14 +10,18 @@ public class StartEndMover : MonoBehaviour
     private Color originalColor; 
     private Renderer startEndRenderer;
     private bool canMove = true;
+    public LayerMask terrainLayer;
+    public LayerMask objectLayer;
     void Update()
     {
         //Check if user is clicking
         if (Input.GetMouseButtonDown(0) && canMove)
         {
+            LayerMask selectedLayer = objectLayer;
+            if (selectedStartEnd != null) selectedLayer = terrainLayer;
             //Send ray to see if hits a startEnd
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit))
+            if (Physics.Raycast(ray, out RaycastHit hit, 10000, selectedLayer))
             {
                 if (selectedStartEnd == null)
                 {

@@ -11,15 +11,18 @@ public class ObstacleMover : MonoBehaviour
     private Color originalColor; 
     private Renderer obstacleRenderer;
     private bool canMoveObstacles = true;
-
+    public LayerMask terrainLayer;
+    public LayerMask objectLayer;
     void Update()
     {
         //Check if user is clicking
         if (Input.GetMouseButtonDown(0) && canMoveObstacles)
         {
+            LayerMask selectedLayer = objectLayer;
+            if (selectedObstacle != null) selectedLayer = terrainLayer;
             //Send ray to see if hits a obstacle
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit))
+            if (Physics.Raycast(ray, out RaycastHit hit, 10000, selectedLayer))
             {
                 if (selectedObstacle == null)
                 {

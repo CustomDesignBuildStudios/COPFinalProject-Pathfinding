@@ -84,19 +84,22 @@ public class NPCAgent : MonoBehaviour
     void RequestNewPath()
     {
         path = null;
-        isGettingPath = true;
-        if (currentNode == null)
+        if (this.gameObject.activeSelf)
         {
-            currentNode = GameManager.Instance.GetClosestNode(this.transform.position);
-            endNode = GameManager.Instance.GetRandomNodeOnGraph(false);
+            isGettingPath = true;
+            if (currentNode == null)
+            {
+                currentNode = GameManager.Instance.GetClosestNode(this.transform.position);
+                endNode = GameManager.Instance.GetRandomNodeOnGraph(false);
+            }
+            bool isGetting = GameManager.Instance.GetPath(currentNode, endNode, (result) =>
+            {
+                pathIndex = 0;
+                path = result;
+                isGettingPath = false;
+                currentNode = result[pathIndex];
+            });
+            if (isGetting == false) isGettingPath = false;
         }
-        bool isGetting = GameManager.Instance.GetPath(currentNode, endNode, (result) =>
-        {
-            pathIndex = 0;
-            path = result;
-            isGettingPath = false;
-            currentNode = result[pathIndex];
-        });
-        if (isGetting == false) isGettingPath = false;
     }
 }
