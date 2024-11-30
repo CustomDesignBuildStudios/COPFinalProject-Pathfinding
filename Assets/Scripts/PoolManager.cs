@@ -1,11 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// PoolManager manages a pool for nodes, edges, and agents
+/// </summary>
 public class PoolManager : MonoBehaviour
 {
-    public static PoolManager Instance { get; private set; }
+    //All variables
+    private List<GameObject> edges;
+    private List<GameObject> nodes;
+    private List<NPCAgent> agents;
 
+    public int maxNodesAllowed = 10000;
+    public int maxEdgesAllowed = 10000;
+
+    public GameObject agentPrefab;
+    public GameObject nodePrefab;
+    public GameObject linePrefab;
+
+
+    //Singleton design pattern
+    public static PoolManager Instance { get; private set; }
+    //Init function
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -21,20 +37,7 @@ public class PoolManager : MonoBehaviour
         nodes = new List<GameObject>();
     }
 
-
-
-    public List<GameObject> edges;
-    public List<GameObject> nodes;
-    public List<NPCAgent> agents;
-
-    public int maxNodesAllowed = 10000;
-    public int maxEdgesAllowed = 10000;
-
-    public GameObject agentPrefab;
-    public GameObject nodePrefab;
-    public GameObject linePrefab;
-
-
+    //Return agent from pool or create new one if all are being used
     public NPCAgent GetAgent()
     {
         foreach (var agent in agents)
@@ -53,6 +56,7 @@ public class PoolManager : MonoBehaviour
         return npc;
     }
 
+    //Return node from pool or create new one if all are being used
     public GameObject GetNode()
     {
         foreach (var node in nodes)
@@ -60,17 +64,15 @@ public class PoolManager : MonoBehaviour
             if (!node.activeSelf)
             {
                 node.SetActive(true);
-                return node;  // Return an inactive node to reuse
+                return node; 
             }
         }
 
-        //if (nodes.Count >= maxNodesAllowed) return null;
-
-        // If no inactive nodes are available, create a new one
         GameObject newNodeGO = Instantiate(nodePrefab);
         nodes.Add(newNodeGO);
         return newNodeGO;
     }
+    //Return edge from pool or create new one if all are being used
     public GameObject GetEdge()
     {
         foreach (var edge in edges)
@@ -78,13 +80,9 @@ public class PoolManager : MonoBehaviour
             if (!edge.activeSelf)
             {
                 edge.SetActive(true);
-                return edge;  // Return an inactive node to reuse
+                return edge;  
             }
         }
-
-        //if (edges.Count >= maxEdgesAllowed) return null;
-
-        // If no inactive nodes are available, create a new one
         GameObject newEdgeGO = Instantiate(linePrefab,Vector3.zero,Quaternion.identity);
         edges.Add(newEdgeGO);
         return newEdgeGO;

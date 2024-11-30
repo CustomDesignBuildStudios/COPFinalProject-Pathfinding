@@ -6,9 +6,43 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Main script for the game
+/// Handles the ui, npc, graph...
+/// </summary>
 public class GameManager : MonoBehaviour
 {
+    public Coroutine currentCoroutine;
+    public Graph graph;
 
+    //UI dropdowns
+    public TMP_Dropdown algoDropdown;
+    public TMP_Dropdown dataDropdown;
+    public TMP_Dropdown sizeDropdown;
+    public TMP_Dropdown graphDropdown;
+    public TMP_Dropdown agentsDropdown;
+    public TMP_Dropdown graphicalDropdown;
+    public TMP_Dropdown visualizeDropdown;
+    //Start and end node
+    private Node startNode;
+    private Node endNode;
+
+    public GameObject startPoint;
+    public GameObject endPoint;
+
+    private bool graphHasChanged = false;
+    private bool graphicalHasChanged = false;
+    private int timesRan;
+    public bool isRunning;
+
+    //Event handle
+    public delegate void EventHandler();
+    public event EventHandler graphObstaclesUpdatedEvent;
+    float npcAgentTimer = 1000;
+    public Queue<NPCAgent> agents = new Queue<NPCAgent>();
+
+
+    // Singleton 
     public static GameManager Instance { get; private set; }
     private void Awake()
     {
@@ -21,11 +55,22 @@ public class GameManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
-
-
+    //Gets closest node to a position
+    public Node GetClosestNode(Vector3 pos)
+    {
+        return Utilities.GetClosestNode(graph, pos);
+    }
+    //Gets random node on a graph
+    public Node GetRandomNodeOnGraph(bool includeNotWalkable)
+    {
+        if(graph == null) return null;
+        return graph.GetRandom(includeNotWalkable);
+    }
+    //Request path
+    //Returns true or false if was successful or is busy
     public bool GetPath(Node start, Node end, Action<List<Node>> callback)
     {
-        if(graph == null || isRunning == true) return false;
+        if (graph == null || isRunning == true) return false;
         if (SettingsManager.Instance.algoTypes == AlgoTypes.BFS)
         {
             StartCoroutine(BreadthFirstSearch.BFS_OnGraph(graph, start, end, callback));
@@ -44,39 +89,9 @@ public class GameManager : MonoBehaviour
         }
         return true;
     }
-    public Node GetClosestNode(Vector3 pos)
-    {
-        return Utilities.GetClosestNode(graph, pos);
-    }
-    public Node GetRandomNodeOnGraph(bool includeNotWalkable)
-    {
-        if(graph == null) return null;
-        return graph.GetRandom(includeNotWalkable);
-    }
 
-
-
-    public Coroutine currentCoroutine;
-    public Graph graph;
-
-    public TMP_Dropdown algoDropdown;
-    public TMP_Dropdown dataDropdown;
-    public TMP_Dropdown sizeDropdown;
-    public TMP_Dropdown graphDropdown;
-    public TMP_Dropdown agentsDropdown;
-    public TMP_Dropdown graphicalDropdown;
-    public TMP_Dropdown visualizeDropdown;
-    private Node startNode;
-    private Node endNode;
-    private bool graphHasChanged = false;
-    private bool graphicalHasChanged = false;
-    private int timesRan;
-    public bool isRunning;
-
-    public GameObject startPoint;
-    public GameObject endPoint;
-
-    public Queue<NPCAgent> agents = new Queue<NPCAgent>();
+    //Runs the settings on the graph
+    //Called by the ui button
     public void RunGraph()
     {
         if (isRunning) return;
@@ -193,8 +208,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public delegate void EventHandler();
-    public event EventHandler graphObstaclesUpdatedEvent;
+
 
     public void ObstacleWasMoved()
     {
@@ -204,7 +218,6 @@ public class GameManager : MonoBehaviour
 
     }
 
-    float npcAgentTimer = 1000;
     private void Update()
     {
         npcAgentTimer -= Time.deltaTime;
@@ -225,16 +238,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
-
-
-
-
-
-
-
-
-    //public List<DataPoint> dataPoints;
 
     public void OpenReport()
     {

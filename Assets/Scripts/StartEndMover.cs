@@ -1,66 +1,79 @@
 using UnityEngine;
-
+/// <summary>
+/// StartEndMover
+/// Allows the user to click to select a start/end point and click again to place it in a new position
+/// </summary>
 public class StartEndMover : MonoBehaviour
 {
     private Transform selectedStartEnd; 
     public Color highlightColor = Color.yellow;
     private Color originalColor; 
-    private Renderer obstacleRenderer;
+    private Renderer startEndRenderer;
     private bool canMove = true;
     void Update()
     {
+        //Check if user is clicking
         if (Input.GetMouseButtonDown(0) && canMove)
         {
+            //Send ray to see if hits a startEnd
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
                 if (selectedStartEnd == null)
                 {
-                    // Select an obstacle if clicked
+                    // Select an start/end point if clicked
                     if (hit.collider.CompareTag("StartEnd"))
                     {
-                        SelectObstacle(hit.collider.transform);
+                        SelectStartEnd(hit.collider.transform);
                     }
                 }
                 else
                 {
+                    // If has selected a start/end point 
+                    // Check if clicked on terrain to move it
                     if (hit.collider.CompareTag("Terrain"))
                     {
-                        MoveObstacle(hit.point);
-                        DeselectObstacle();
+                        MoveStartEnd(hit.point);
+                        DeselectStartEnd();
                     }
                 }
             }
         }
 
+        //Right click to deselect
         if (Input.GetMouseButtonDown(1) && selectedStartEnd != null)
         {
-            DeselectObstacle();
+            DeselectStartEnd();
         }
     }
-    private void SelectObstacle(Transform obstacle)
+    //Select startEnd point
+    //Change its material
+    private void SelectStartEnd(Transform startEnd)
     {
-        selectedStartEnd = obstacle;
-        obstacleRenderer = selectedStartEnd.GetComponent<Renderer>();
+        selectedStartEnd = startEnd;
+        startEndRenderer = selectedStartEnd.GetComponent<Renderer>();
 
-        if (obstacleRenderer != null)
+        if (startEndRenderer != null)
         {
-            originalColor = obstacleRenderer.material.color;
-            obstacleRenderer.material.color = highlightColor;
+            originalColor = startEndRenderer.material.color;
+            startEndRenderer.material.color = highlightColor;
         }
     }
-    private void DeselectObstacle()
+    //Deselect startEnd
+    //Change its material
+    private void DeselectStartEnd()
     {
-        if (selectedStartEnd != null && obstacleRenderer != null)
+        if (selectedStartEnd != null && startEndRenderer != null)
         {
-            obstacleRenderer.material.color = originalColor;
+            startEndRenderer.material.color = originalColor;
         }
 
         selectedStartEnd = null;
-        obstacleRenderer = null;
+        startEndRenderer = null;
     }
-
-    private void MoveObstacle(Vector3 newPosition)
+    //Move startEnd
+    //Tell Graph startEnd was move so it can update
+    private void MoveStartEnd(Vector3 newPosition)
     {
         if (selectedStartEnd != null)
         {

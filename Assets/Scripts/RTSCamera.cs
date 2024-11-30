@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class RTSCamera : MonoBehaviour
 {
-    public Transform cameraParent; // Parent object of the camera for orbiting
-    public Camera mainCamera; // The camera itself
-    public float zoomSpeed = 10f; // Speed of zooming
-    public float moveSpeed = 10f; // Speed of dragging movement
-    public float rotationSpeed = 100f; // Speed of rotation
-    public float minZoomDistance = 5f; // Minimum zoom distance
-    public float maxZoomDistance = 50f; // Maximum zoom distance
-
+    public Transform cameraParent;
+    public Camera mainCamera; 
+    public float zoomSpeed = 10f; 
+    public float moveSpeed = 10f; 
+    public float rotationSpeed = 100f; 
+    public float minZoomDistance = 5f; 
+    public float maxZoomDistance = 50f;
+    public LayerMask layerTarget;
     private Vector3 dragStartPos;
     private bool isDragging = false;
 
@@ -27,7 +27,7 @@ public class RTSCamera : MonoBehaviour
         {
             // Move the camera along its local Z-axis
             float zoomAmount = scroll * zoomSpeed * Time.deltaTime;
-            Vector3 newLocalPosition = mainCamera.transform.localPosition + Vector3.forward * zoomAmount;
+            Vector3 newLocalPosition = mainCamera.transform.localPosition + mainCamera.transform.forward * zoomAmount;
 
             // Clamp the camera's distance from the parent object
             float distance = newLocalPosition.magnitude;
@@ -57,7 +57,7 @@ public class RTSCamera : MonoBehaviour
         {
             isDragging = true;
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit))
+            if (Physics.Raycast(ray, out RaycastHit hit, 10000, layerTarget))
             {
                 dragStartPos = hit.point;
             }
@@ -71,7 +71,7 @@ public class RTSCamera : MonoBehaviour
         if (isDragging)
         {
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit))
+            if (Physics.Raycast(ray, out RaycastHit hit,10000, layerTarget))
             {
                 Vector3 dragEndPos = hit.point;
                 Vector3 dragDelta = dragStartPos - dragEndPos;

@@ -1,11 +1,12 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using static Unity.VisualScripting.Member;
 
-public class AdjMatrix
+public class AdjMatrix : Graph
 {
     private Edge[,] edgeMatrix;
-    private Node[] nodes;
+    private List<Node> nodes;
     private int size;
 
     // Constructor
@@ -15,6 +16,27 @@ public class AdjMatrix
         edgeMatrix = new Edge[size, size];
     }
 
+    // Get Graph Size
+    public override int GetSize()
+    {
+        return nodes.Count;
+    }
+    // Get all nodes in edge list
+    public override Dictionary<string, Node> GetNodes()
+    {
+        return null;
+    }
+
+    public override void ResetGraph()
+    {
+        
+    }
+    public override void ResetSameGraph()
+    {
+ 
+    }
+
+
     // Add an edge between two nodes with a weight
     public bool AddEdge(Node source, Node destination, int weight = 1)
     {
@@ -22,11 +44,8 @@ public class AdjMatrix
         {
             return false;
         }
-
-
-        //Edge edge = PoolManager.Instance.GetEdge();
-        //edge.Setup(source, destination, weight);
-        //source.AddNeighbor(edge);
+        Edge edge = new Edge(source, destination, weight);
+        edgeMatrix[1,1] = edge;
 
         return true;
 
@@ -34,6 +53,7 @@ public class AdjMatrix
 
     public bool HasEdge(Node source, Node destination)
     {
+
         if (source.HasNeighbor(destination))
         {
             return false;

@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
 
-
+/// <summary>
+/// Adjacency list data structure
+/// Holds a dict with key-Node and array of Nodes for edges
+/// </summary>
 public class AdjList : Graph
 {
     private Dictionary<string, Node> nodes;

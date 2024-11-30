@@ -3,6 +3,10 @@ using System.Drawing;
 using UnityEngine;
 using static Unity.VisualScripting.Member;
 
+/// <summary>
+/// Edge class
+/// Handles edge functions for all data structures
+/// </summary>
 public class Edge {
 
     private Node source;
@@ -12,6 +16,7 @@ public class Edge {
     public GameObject go;
     public AlgoState currentState;
 
+    //Constructor
     public Edge(Node _source, Node _destination, float _weight)
     {
         source = _source;
@@ -19,10 +24,13 @@ public class Edge {
         weight = _weight;
         ResetMaterial();
     }
+    //Reset edge for use on the same graph
     public void ResetSameEdge()
     {
         ResetMaterial();
     }
+    //Reset edge entirely
+    //Cuases it to go to garbage collection
     public void ResetEdge()
     {
         source = null;
@@ -32,7 +40,7 @@ public class Edge {
         lineRenderer = null;
     }
 
-
+    //Getter / Setters
     public Node GetSource()
     {
         return source;
@@ -46,6 +54,8 @@ public class Edge {
         return weight;
     }
 
+
+    //Graphical functions
     public void ResetMaterial()
     {
         UpdateGraphical(AlgoState.unvisited);
@@ -58,8 +68,6 @@ public class Edge {
     {
         UpdateGraphical(AlgoState.traversed);
     }
-
-
     public void UpdateGraphical(AlgoState state)
     {
         currentState = state;
@@ -70,8 +78,6 @@ public class Edge {
     }
     public void ActivateGrahpicalGO()
     {
-        Debug.Log(currentState);
-        Debug.Log("ActivateGrahpicalGO");
         if (go == null)
         {
             go = PoolManager.Instance.GetEdge();
@@ -115,16 +121,4 @@ public class Edge {
         go = null;
         lineRenderer = null;
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }

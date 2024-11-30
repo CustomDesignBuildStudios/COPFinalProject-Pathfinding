@@ -7,33 +7,34 @@ using UnityEngine.AI;
 
 public class NPCAgent : MonoBehaviour
 {
-    public float waypointTolerance = 1.0f; // Distance to consider the waypoint reached
-
-
+    //Buffer distance to get new node 
+    public float waypointTolerance = 1;
 
     private Node currentNode;
     private Node endNode;
     private List<Node> path;
     private int pathIndex = 0;
     public bool isGettingPath = false;
+    public float moveSpeed = 2;
+    public float requestNewPathTime = 2;
+    private float timeToGetNewPath = 2;
 
-    private bool visualizePath = false;
-    public void VisualizePath()
+    //Init
+    //Subscribes to graph updated event
+    void Start()
     {
-        visualizePath = true;
+        GameManager.Instance.graphObstaclesUpdatedEvent += RequestNewPath;
+        timeToGetNewPath = requestNewPathTime;
     }
-    public void HidePath()
-    {
-        visualizePath = false;
-    }
+
 
     public void EnableAgent()
     {
         gameObject.SetActive(true);
     }
+    //Sends agent back to pool
     public void DisableAgent()
     {
-        visualizePath = false;
         isGettingPath = false;
         currentNode = null;
         endNode = null;
@@ -42,33 +43,26 @@ public class NPCAgent : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-
-    void Start()
-    {
-        GameManager.Instance.graphObstaclesUpdatedEvent += RequestNewPath;
-    }
-
-
-
-
-    public float moveSpeed = 2;
-    public float requestNewPathTime = 2;
-    public float timeToGetNewPath = 2;
+    
     void FixedUpdate()
     {
+        //Trys to get new path by timer
         timeToGetNewPath -= Time.deltaTime;
         if (path == null && isGettingPath == false && timeToGetNewPath < 0)
         {
-            timeToGetNewPath = requestNewPathTime;
+            timeToGetNewPath = requestNewPathTime + Random.Range(0,2);
             RequestNewPath();
         }
+        //If has path
         else if(path != null)
         {
+            //moves to next point if point is far away
             if (Vector3.Distance(this.transform.position,currentNode.GetPosition()) > waypointTolerance)
             {
                 transform.position = Vector3.MoveTowards(transform.position, currentNode.GetPosition(), moveSpeed * Time.deltaTime);
 
             }
+            //if close to next point get next point or has finished path
             else
             {
                 if(currentNode == endNode) {
@@ -86,24 +80,18 @@ public class NPCAgent : MonoBehaviour
             }
         }
     }
-
+    //Trys to get new path
     void RequestNewPath()
     {
         path = null;
-
-
-        Debug.Log("RequestNewPath");
         isGettingPath = true;
         if (currentNode == null)
         {
             currentNode = GameManager.Instance.GetClosestNode(this.transform.position);
             endNode = GameManager.Instance.GetRandomNodeOnGraph(false);
         }
-
-
         bool isGetting = GameManager.Instance.GetPath(currentNode, endNode, (result) =>
         {
-            Debug.Log("DONE");
             pathIndex = 0;
             path = result;
             isGettingPath = false;

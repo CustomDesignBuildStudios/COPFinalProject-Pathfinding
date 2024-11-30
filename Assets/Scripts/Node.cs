@@ -6,10 +6,10 @@ using UnityEngine.UIElements;
 using static Unity.VisualScripting.Member;
 
 
-public enum AlgoState
-{
-    unvisited, visited, traversed, unwalkable
-}
+/// <summary>
+/// Node class
+/// Can handle the different data structures requirements for nodes
+/// </summary>
 public class Node
 {
     private int gridX;
@@ -22,6 +22,7 @@ public class Node
     private GameObject go;
     private AlgoState currentState;
 
+    //Constructor
     public Node(Vector3 _worldPosition, bool _isWalkable)
     {
 
@@ -33,7 +34,7 @@ public class Node
         ResetMaterial();
         if (go != null) go.transform.position = worldPosition;
     }
-    ////////////////////////////////////////GETTERS SETTERS//////////////////////////////////////////////////
+    //Getters & Setters
     public bool GetIsWalkable()
     {
         return isWalkable;
@@ -66,18 +67,27 @@ public class Node
     {
         return gridZ;
     }
+    //Neighbor/Edge functions
     public void AddNeighbor(Edge edge)
     {
         if (neighbors == null) neighbors = new List<Edge>();
         neighbors.Add(edge);
     }
-
     public List<Edge> GetNeighbors()
     {
         return neighbors;
     }
-    ////////////////////////////////////////RESET//////////////////////////////////////////////////
-
+    public bool HasNeighbor(Node node)
+    {
+        foreach (Edge edge in neighbors)
+        {
+            if (edge.GetDestination() == node) return true;
+        }
+        return false;
+    }
+    //Reset node for use on the same graph
+    //Just resets iswalkable and material
+    //Allows the graph to reupdate
     public void ResetSameNode()
     {
         isWalkable = true;
@@ -87,6 +97,8 @@ public class Node
             edge.ResetSameEdge();
         }
     }
+    //Resets node entirely
+    //Causes node and edges to go to garbage collection
     public void ResetNode()
     {
         foreach (var edge in neighbors)
@@ -99,8 +111,7 @@ public class Node
         neighbors = new List<Edge>();
     }
 
-    ////////////////////////////////////////GRAPHICAL//////////////////////////////////////////////////
-
+    //Graphical Functions
     public void ResetMaterial()
     {
         UpdateGraphical(AlgoState.unvisited);
@@ -117,8 +128,6 @@ public class Node
     {
         UpdateGraphical(AlgoState.unwalkable);
     }
-
-
     public void UpdateGraphical(AlgoState state)
     {
         currentState = state;
@@ -129,7 +138,6 @@ public class Node
     }
     public void ActivateGrahpicalGO()
     {
-        Debug.Log("A");
         if (go == null)
         {
             go = PoolManager.Instance.GetNode();
@@ -163,17 +171,6 @@ public class Node
     }
 
 
-
-
-
-    public bool HasNeighbor(Node node)
-    {
-        foreach (Edge edge in neighbors)
-        {
-            if(edge.GetDestination() == node) return true;
-        }
-        return false;
-    }
 
 
 

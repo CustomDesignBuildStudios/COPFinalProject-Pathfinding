@@ -2480,9 +2480,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ccf0e6fcff84834f8f8da8489584d2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  edges: []
-  nodes: []
-  agents: []
   maxNodesAllowed: 10000
   maxEdgesAllowed: 10000
   agentPrefab: {fileID: 7258233922202320689, guid: a85856fb8bbf157449b38e1cd1970fd8, type: 3}
@@ -2520,9 +2517,9 @@ MonoBehaviour:
   agentsDropdown: {fileID: 1277669733}
   graphicalDropdown: {fileID: 328190167}
   visualizeDropdown: {fileID: 75946912}
-  isRunning: 0
   startPoint: {fileID: 0}
   endPoint: {fileID: 0}
+  isRunning: 0
 --- !u!114 &369077197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5472,13 +5469,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.56674266, y: -0, z: -0, w: 0.8238949}
-  m_LocalPosition: {x: 0, y: 264, z: -101}
+  m_LocalRotation: {x: 0.45805004, y: -0, z: -0, w: 0.8889264}
+  m_LocalPosition: {x: 0, y: 407, z: -290}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1703317373}
-  m_LocalEulerAnglesHint: {x: 69.047, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 54.523, y: 0, z: 0}
 --- !u!114 &963194229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5493,11 +5490,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraParent: {fileID: 1703317373}
   mainCamera: {fileID: 963194227}
-  zoomSpeed: 10
+  zoomSpeed: 100000
   moveSpeed: 10
-  rotationSpeed: 100
-  minZoomDistance: 5
-  maxZoomDistance: 50
+  rotationSpeed: 1000
+  minZoomDistance: 200
+  maxZoomDistance: 800
+  layerTarget:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &976714434
 GameObject:
   m_ObjectHideFlags: 0
@@ -9488,7 +9488,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1895018538}
   - component: {fileID: 1895018537}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ObstacleLayer
   m_TagString: Terrain
   m_Icon: {fileID: 0}
@@ -9527,7 +9527,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1000, y: 1000, z: 1000}
+  m_LocalScale: {x: 10000, y: 10000, z: 10000}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
