@@ -38,6 +38,11 @@ public class ObstacleMover : MonoBehaviour
                         MoveObstacle(hit.point);
                         DeselectObstacle();
                     }
+                    else
+                    {
+                        DeselectObstacle();
+
+                    }
                 }
             }
         }

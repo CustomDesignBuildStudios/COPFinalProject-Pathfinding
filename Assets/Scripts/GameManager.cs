@@ -134,6 +134,17 @@ public class GameManager : MonoBehaviour
 
         if (graphHasChanged || timesRan == 1)
         {
+            for (int i = 0; i < SettingsManager.Instance.terrains.Length; i++)
+            {
+                SettingsManager.Instance.terrains[i].gameObject.SetActive(false);
+            }
+            if ((int)SettingsManager.Instance.graphTypes > 2)
+            {
+                SettingsManager.Instance.GetTerrain().gameObject.SetActive(true);
+            }
+    
+
+
             if(graph != null) graph.ResetGraph();
             Debug.Log(graphHasChanged);
             if (SettingsManager.Instance.dataTypes == DataTypes.AdjList)

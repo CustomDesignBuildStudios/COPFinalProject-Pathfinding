@@ -15,7 +15,7 @@ public class AdjListCreator
         AdjList graph = new AdjList();
         if (SettingsManager.Instance.graphTypes == GraphTypes.Random)
         {
-            int columns = Mathf.CeilToInt(Mathf.Sqrt(SettingsManager.Instance.GetSize())); // Dynamically determine columns for a near-square grid
+            int columns = Mathf.CeilToInt(Mathf.Sqrt(SettingsManager.Instance.GetSize())); 
 
             for (int i = 0; i < SettingsManager.Instance.GetSize(); i++)
             {
@@ -32,8 +32,8 @@ public class AdjListCreator
                 while (edges > 0)
                 {
                     System.Random random = new System.Random();
-                    int index = random.Next(nodes.Count); // Generate a random index
-                    var randomNode = nodes.ElementAt(index); // Get the key-value pair at the random index
+                    int index = random.Next(nodes.Count); 
+                    var randomNode = nodes.ElementAt(index); 
 
                     if (randomNode.Value != node)
                     {
@@ -48,11 +48,11 @@ public class AdjListCreator
         }
         else if (SettingsManager.Instance.graphTypes == GraphTypes.EightGrid || SettingsManager.Instance.graphTypes == GraphTypes.FourGrid)
         {
-            int columns = Mathf.CeilToInt(Mathf.Sqrt(SettingsManager.Instance.GetSize())); // Dynamically determine columns for a near-square grid
+            int columns = Mathf.CeilToInt(Mathf.Sqrt(SettingsManager.Instance.GetSize())); 
 
             for (int i = 0; i < SettingsManager.Instance.GetSize(); i++)
             {
-                int x = (i % columns) * SettingsManager.Instance.gridSize; // Column
+                int x = (i % columns) * SettingsManager.Instance.gridSize; 
                 int z = (i / columns) * SettingsManager.Instance.gridSize;
                 graph.AddNode(new Vector3((int)x, 0, (int)z));
             }
@@ -103,7 +103,7 @@ public class AdjListCreator
             float terrainWidth = terrainData.size.x;
             float terrainLength = terrainData.size.z;
 
-            int resolution = Mathf.CeilToInt(Mathf.Sqrt(SettingsManager.Instance.GetSize())); // Dynamically determine columns for a near-square grid
+            int resolution = Mathf.CeilToInt(Mathf.Sqrt(SettingsManager.Instance.GetSize()));
 
             float stepX = terrainWidth / (resolution - 1);
             float stepZ = terrainLength / (resolution - 1);

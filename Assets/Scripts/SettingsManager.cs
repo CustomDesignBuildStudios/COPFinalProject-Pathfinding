@@ -158,6 +158,14 @@ public class SettingsManager : MonoBehaviour
     //Getters and Setters
     public Terrain GetTerrain()
     {
+        if((int)graphTypes <= 2)
+        {
+            return null;
+        }
+        else
+        {
+            selectedTerrain = (int)graphTypes - 3;
+        }
         return terrains[selectedTerrain];
     }
     public int GetSize()
