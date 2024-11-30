@@ -114,10 +114,12 @@ public class AStarAlgorithm : MainAlgorithm
             //if destination reach reconstruct path
             if (currentNode.node == destination)
             {
+                report.nodesVisited = visited.Count;
+                //report.pathLength = parentMap.Count;
                 float endTime = Time.realtimeSinceStartup;
                 report.timeToRun = endTime - startTime;
+                yield return ReconstructPath(report,parentMap, destination, callback);
                 ReportsManager.Instance.AddReport(report);
-                yield return ReconstructPath(parentMap, destination, callback);
                 yield break;
             }
 

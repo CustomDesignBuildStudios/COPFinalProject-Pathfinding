@@ -114,18 +114,22 @@ public class Node
     //Graphical Functions
     public void ResetMaterial()
     {
+        //Debug.Log("ResetMaterial");
         UpdateGraphical(AlgoState.unvisited);
     }
     public void VisitNode()
     {
+        //Debug.Log("VisitNode");
         UpdateGraphical(AlgoState.visited);
     }
     public void TraverseNode()
     {
+        //Debug.Log("TraverseNode");
         UpdateGraphical(AlgoState.traversed);
     }
     public void NotWalkableNode()
     {
+        //Debug.Log("NotWalkableNode");
         UpdateGraphical(AlgoState.unwalkable);
     }
     public void UpdateGraphical(AlgoState state)

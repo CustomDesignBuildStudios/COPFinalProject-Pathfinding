@@ -45,18 +45,19 @@ public class PoolManager : MonoBehaviour
         List<GameObject> newEdges = new List<GameObject>();
         List<GameObject> newNodes = new List<GameObject>();
 
-        for (int i = 0; i < 100000; i++)
+        for (int i = 0; i < 50000; i++)
         {
-            newEdges.Add(GetEdge());
-            newNodes.Add(GetNode());
-            yield return new WaitForSeconds(0.01f);
+            GameObject newNodeGO = Instantiate(nodePrefab);
+            newNodeGO.SetActive(false);
+            nodes.Add(newNodeGO);
+
+            GameObject newEdgeGO = Instantiate(linePrefab, Vector3.zero, Quaternion.identity);
+            newEdgeGO.SetActive(false);
+            edges.Add(newEdgeGO);
+
+            yield return new WaitForSeconds(0.001f);
         }
 
-        for (int i = 0; i < 100000; i++)
-        {
-            newEdges[i].SetActive(false);
-            newNodes[i].SetActive(false);
-        }
 
     }
 

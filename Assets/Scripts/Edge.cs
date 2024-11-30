@@ -58,14 +58,17 @@ public class Edge {
     //Graphical functions
     public void ResetMaterial()
     {
+        //Debug.Log("ResetMaterial");
         UpdateGraphical(AlgoState.unvisited);
     }
     public void VisitEdge()
     {
+        //Debug.Log("VisitEdge");
         UpdateGraphical(AlgoState.visited);
     }
     public void TraverseEdge()
     {
+        //Debug.Log("TraverseEdge");
         UpdateGraphical(AlgoState.traversed);
     }
     public void UpdateGraphical(AlgoState state)
@@ -78,6 +81,7 @@ public class Edge {
     }
     public void ActivateGrahpicalGO()
     {
+        Debug.Log("ActivateGrahpicalGO");
         if (go == null)
         {
             go = PoolManager.Instance.GetEdge();

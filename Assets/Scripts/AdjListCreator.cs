@@ -142,9 +142,17 @@ public class AdjListCreator
                             string newNodeKey = Utilities.CreateKey(new Vector3(currentNode.GetPosition().x + (x * stepX), 0, currentNode.GetPosition().z + (z * stepZ)));
                             if (graph.GetNodes().ContainsKey(newNodeKey))
                             {
-                                float elevationDiff = currentNode.GetPosition().y - graph.GetNodes()[newNodeKey].GetPosition().y;
+                                Vector3 newNodePosition = graph.GetNodes()[newNodeKey].GetPosition();
+                                float elevationDiff = currentNode.GetPosition().y - newNodePosition.y;
 
-                                float weight = Mathf.Abs(elevationDiff) + (elevationDiff > 0 ? 1 : 0.5f);
+                                float horizontalDistance = Mathf.Sqrt(
+                                    Mathf.Pow(currentNode.GetPosition().x - newNodePosition.x, 2) +
+                                    Mathf.Pow(currentNode.GetPosition().z - newNodePosition.z, 2)
+                                );
+
+                                float slopePercentage = horizontalDistance > 0 ? Mathf.Abs(elevationDiff / horizontalDistance) * 100 : 100f;
+
+                                float weight = slopePercentage * (SettingsManager.Instance.maxWeight - SettingsManager.Instance.minWeight);
                                 graph.AddEdge(currentNode, graph.GetNodes()[newNodeKey], weight);
                             }
                         }

@@ -136,7 +136,7 @@ public class GameManager : MonoBehaviour
 
         SettingsManager.Instance.agentTypes = (AgentsType)agentsDropdown.value;
 
-
+        graphHasChanged = true;/////
 
         if (SettingsManager.Instance.graphicalType != (GraphicalTypes)graphicalDropdown.value) graphicalHasChanged = true;
         SettingsManager.Instance.graphicalType = (GraphicalTypes)graphicalDropdown.value;
@@ -259,9 +259,9 @@ public class GameManager : MonoBehaviour
 
     public void ObstacleWasMoved()
     {
-        graph.UpdateWithObstacles();
+        //graph.UpdateWithObstacles();
 
-        graphObstaclesUpdatedEvent?.Invoke();
+        //graphObstaclesUpdatedEvent?.Invoke();
 
     }
 

@@ -8,7 +8,7 @@ public abstract class MainAlgorithm : MonoBehaviour
 
     //Reconstruct path to the start point
     //And visualize it
-    public static IEnumerator ReconstructPath(Dictionary<Node, (Node toNode, Edge withEdge)> parentMap, Node destination, Action<List<Node>> callback)
+    public static IEnumerator ReconstructPath(RunReport report,  Dictionary<Node, (Node toNode, Edge withEdge)> parentMap, Node destination, Action<List<Node>> callback)
     {
         List<Node> path = new List<Node>();
         Node currentNode = destination;
@@ -17,6 +17,8 @@ public abstract class MainAlgorithm : MonoBehaviour
         while (currentNode != null)
         {
             path.Add(currentNode);
+            report.pathLength += 1;
+            //Debug.Log(report.pathLength);
             if (currentEdge != null) currentEdge.TraverseEdge();
             if (SettingsManager.Instance.visualize) yield return new WaitForSeconds(SettingsManager.Instance.GetVisualizeSpeed());
 

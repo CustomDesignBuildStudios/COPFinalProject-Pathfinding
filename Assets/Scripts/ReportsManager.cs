@@ -6,7 +6,7 @@ using UnityEngine;
 using static UnityEditor.PlayerSettings.Switch;
 
 
-public struct RunReport
+public class RunReport
 {
     public DataTypes dataTypes;
     public AlgoTypes algoType;
@@ -18,10 +18,14 @@ public struct RunReport
     public int gridSize;
     public float maxLineSize;
     public float timeToRun;
+    public int nodesVisited;
+    public int pathLength;
     //public float avgerageFPS;
     public ReportTextUI textUI;
     public RunReport(DataTypes dataTypes, AlgoTypes algoType, GraphTypes graphTypes,int density, int minWeight, int maxWeight, int size, int gridSize, float maxLineSize, float timeToRun)
     {
+        this.nodesVisited = 0;
+        this.pathLength = 0;
         this.dataTypes = dataTypes;
         this.algoType = algoType;
         this.graphTypes = graphTypes;
@@ -75,7 +79,10 @@ public class ReportsManager : MonoBehaviour
         ReportTextUI reportText = textGO.GetComponent<ReportTextUI>();
         report.textUI = reportText;
         report.textUI.resultsText.text = report.timeToRun.ToString();
-        report.textUI.settingsText.text = $"Settings: {Enum.GetName(typeof(AlgoTypes), report.algoType)} | {Enum.GetName(typeof(GraphTypes), report.graphTypes)}";
+        report.textUI.settingsText.text = $"Settings: Visited {report.nodesVisited} | Path {report.pathLength} | " +
+            $"{Enum.GetName(typeof(AlgoTypes), report.algoType)} | " +
+            $"{Enum.GetName(typeof(GraphTypes), report.graphTypes)} | " +
+            $" ";
 
         runs.Add(report);
     }
