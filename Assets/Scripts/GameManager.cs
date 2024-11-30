@@ -27,8 +27,7 @@ public class GameManager : MonoBehaviour
     private Node startNode;
     private Node endNode;
 
-    public GameObject startPoint;
-    public GameObject endPoint;
+
 
     private bool graphHasChanged = false;
     private bool graphicalHasChanged = false;
@@ -88,6 +87,11 @@ public class GameManager : MonoBehaviour
             StartCoroutine(AStarAlgorithm.AStar_OnGraph(graph, start, end, callback));
         }
         return true;
+    }
+
+    public void MeasureGraph()
+    {
+
     }
 
     //Runs the settings on the graph
@@ -173,8 +177,12 @@ public class GameManager : MonoBehaviour
         if (SettingsManager.Instance.agentTypes != AgentsType.User)
         {
             isRunning = false;
+            SettingsManager.Instance.startTrans.gameObject.SetActive(false);
+            SettingsManager.Instance.endTrans.gameObject.SetActive(false);
             return;
         }
+        SettingsManager.Instance.startTrans.gameObject.SetActive(true);
+        SettingsManager.Instance.endTrans.gameObject.SetActive(true);
 
         if (SettingsManager.Instance.algoTypes == AlgoTypes.BFS)
         {
@@ -256,17 +264,3 @@ public class GameManager : MonoBehaviour
     }
 }
 
-public struct DataPoint
-{
-    public DataTypes dataTypes;
-    public AlgoTypes algoTypes;
-    public GraphTypes graphTypes;
-    public int density;
-    public int minWeight;
-    public int maxWeight;
-    private int size;
-    public int gridSize;
-    public float maxLineSize;
-    public float timeToRun;
-
-}
