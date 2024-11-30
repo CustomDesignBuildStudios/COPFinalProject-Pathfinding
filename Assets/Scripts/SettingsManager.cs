@@ -152,6 +152,7 @@ public class SettingsManager : MonoBehaviour
     public int gridSize = 10;
     public bool visualize;
     public float maxLineSize = 3;
+    public Vector3 obstacleSize;
     private VisualizeTypes visualizeType = VisualizeTypes.Instant;
 
 
@@ -179,6 +180,12 @@ public class SettingsManager : MonoBehaviour
         else if (type == 2) size = 10000;
         else if (type == 3) size = 25000;
         else if (type == 4) size = 100000;
+
+        for (int i = 0; i < obstacles.Length; i++)
+        {
+            obstacles[i].transform.localScale = obstacleSize * (type + 1);
+        }
+
     }
     public float GetVisualizeSpeed()
     {

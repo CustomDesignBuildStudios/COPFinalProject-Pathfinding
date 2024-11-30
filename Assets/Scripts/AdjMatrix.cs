@@ -6,62 +6,65 @@ using static Unity.VisualScripting.Member;
 public class AdjMatrix : Graph
 {
     private Edge[,] edgeMatrix;
-    private List<Node> nodes;
+    private Dictionary<string, Node> nodes;
     private int size;
 
-    // Constructor
     public AdjMatrix(int _size)
     {
         size = _size;
         edgeMatrix = new Edge[size, size];
     }
-
-    // Get Graph Size
     public override int GetSize()
     {
         return nodes.Count;
     }
-    // Get all nodes in edge list
-    public override Dictionary<string, Node> GetNodes()
-    {
-        return null;
-    }
-
     public override void ResetGraph()
     {
-        
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                edgeMatrix[i, j].ResetEdge();
+            }
+        }
+
+        edgeMatrix = new Edge[size, size];
+        nodes = new Dictionary<string, Node>();
     }
     public override void ResetSameGraph()
     {
- 
+        for (int i = 0; i < size; i++) 
+        {
+            for (int j = 0; j < size; j++) 
+            {
+                edgeMatrix[i, j].ResetSameEdge();
+            }
+        }
     }
+    public Node AddNode(Vector3 position)
+    {
+        if (nodes == null) nodes = new Dictionary<string, Node>();
 
 
-    // Add an edge between two nodes with a weight
-    public bool AddEdge(Node source, Node destination, int weight = 1)
+        Node node = new Node(position, true);
+        nodes.Add(node.GetKey(), node);
+
+        return node;
+    }
+    public bool AddEdge(Node source, Node destination, float weight)
     {
         if (source.HasNeighbor(destination))
         {
             return false;
         }
         Edge edge = new Edge(source, destination, weight);
-        edgeMatrix[1,1] = edge;
+        source.AddNeighbor(edge);
 
         return true;
-
     }
-
-    public bool HasEdge(Node source, Node destination)
+    public override Dictionary<string, Node> GetNodes()
     {
-
-        if (source.HasNeighbor(destination))
-        {
-            return false;
-        }
-
-        return true;
+        return nodes;
     }
-
-
 
 }

@@ -12,11 +12,11 @@ public class EdgeListCreator
         EdgeListGraph graph = new EdgeListGraph();
         if (SettingsManager.Instance.graphTypes == GraphTypes.Random)
         {
-            int columns = Mathf.CeilToInt(Mathf.Sqrt(SettingsManager.Instance.GetSize())); // Dynamically determine columns for a near-square grid
+            int columns = Mathf.CeilToInt(Mathf.Sqrt(SettingsManager.Instance.GetSize())); 
 
             for (int i = 0; i < SettingsManager.Instance.GetSize(); i++)
             {
-                int x = (i % columns) * SettingsManager.Instance.gridSize; // Column
+                int x = (i % columns) * SettingsManager.Instance.gridSize; 
                 int z = (i / columns) * SettingsManager.Instance.gridSize;
                 Node node = graph.AddNode(new Vector3(x, 0, z));
             }
@@ -28,8 +28,8 @@ public class EdgeListCreator
                 while (edges > 0)
                 {
                     System.Random random = new System.Random();
-                    int index = random.Next(nodes.Count); // Generate a random index
-                    var randomNode = nodes.ElementAt(index); // Get the key-value pair at the random index
+                    int index = random.Next(nodes.Count); 
+                    var randomNode = nodes.ElementAt(index); 
 
                     if(randomNode.Value != node)
                     {

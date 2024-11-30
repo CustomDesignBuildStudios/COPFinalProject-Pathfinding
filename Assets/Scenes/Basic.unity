@@ -2451,6 +2451,7 @@ MonoBehaviour:
   gridSize: 10
   visualize: 1
   maxLineSize: 3
+  obstacleSize: {x: 10, y: 20, z: 10}
 --- !u!4 &369077193
 Transform:
   m_ObjectHideFlags: 0
@@ -5438,7 +5439,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 10000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -5486,7 +5487,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraParent: {fileID: 1703317373}
   mainCamera: {fileID: 963194227}
-  zoomSpeed: 100000
+  zoomSpeed: 60000
   moveSpeed: 10
   rotationSpeed: 1000
   minZoomDistance: 200
@@ -5866,10 +5867,6 @@ MonoBehaviour:
   m_Options:
     m_Options:
     - m_Text: Adjacency List
-      m_Image: {fileID: 0}
-    - m_Text: Adjacency Matrix
-      m_Image: {fileID: 0}
-    - m_Text: Edge List
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
