@@ -13,6 +13,11 @@ public class RTSCamera : MonoBehaviour
     private Vector3 dragStartPos;
     private bool isDragging = false;
 
+    public float maxX;
+    public float maxZ;
+    public float minX;
+    public float minZ;
+
     private void Update()
     {
         HandleZoom();
@@ -76,7 +81,26 @@ public class RTSCamera : MonoBehaviour
                 Vector3 dragEndPos = hit.point;
                 Vector3 dragDelta = dragStartPos - dragEndPos;
 
-                cameraParent.position += dragDelta * moveSpeed * Time.deltaTime;
+                Vector3 newPos = cameraParent.position;
+                newPos += dragDelta * moveSpeed * Time.deltaTime;
+
+                if(newPos.x < minX)
+                {
+                    newPos = new Vector3(minX, newPos.y, newPos.z);
+                }
+                if (newPos.x > maxX)
+                {
+                    newPos = new Vector3(maxX, newPos.y, newPos.z);
+                }
+                if (newPos.z < minZ)
+                {
+                    newPos = new Vector3(newPos.x, newPos.y, minZ);
+                }
+                if (newPos.z > maxZ)
+                {
+                    newPos = new Vector3(newPos.x, newPos.y, maxZ);
+                }
+                cameraParent.position = newPos;
             }
         }
     }
