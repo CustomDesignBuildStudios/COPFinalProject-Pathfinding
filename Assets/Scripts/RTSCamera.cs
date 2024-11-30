@@ -40,12 +40,13 @@ public class RTSCamera : MonoBehaviour
 
     private void HandleRotation()
     {
-        if (Input.GetMouseButton(1)) // Right mouse button for rotation
+        // Right mouse button for rotation
+        if (Input.GetMouseButton(1))
         {
             float horizontal = Input.GetAxis("Mouse X");
             float vertical = Input.GetAxis("Mouse Y");
 
-            // Rotate the parent object
+            //Rotate the parent object
             cameraParent.Rotate(Vector3.up, horizontal * rotationSpeed * Time.deltaTime, Space.World);
             cameraParent.Rotate(Vector3.right, -vertical * rotationSpeed * Time.deltaTime, Space.Self);
         }
@@ -53,7 +54,8 @@ public class RTSCamera : MonoBehaviour
 
     private void HandleDrag()
     {
-        if (Input.GetMouseButtonDown(0)) // Left mouse button to start drag
+        // Left mouse button to start drag
+        if (Input.GetMouseButtonDown(0)) 
         {
             isDragging = true;
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
@@ -62,7 +64,7 @@ public class RTSCamera : MonoBehaviour
                 dragStartPos = hit.point;
             }
         }
-
+        // Left mouse button up to stop drag
         if (Input.GetMouseButtonUp(0))
         {
             isDragging = false;
@@ -79,6 +81,7 @@ public class RTSCamera : MonoBehaviour
                 Vector3 newPos = cameraParent.position;
                 newPos += dragDelta * moveSpeed * Time.deltaTime;
 
+                //Limits for drag
                 if(newPos.x < minX)
                 {
                     newPos = new Vector3(minX, newPos.y, newPos.z);

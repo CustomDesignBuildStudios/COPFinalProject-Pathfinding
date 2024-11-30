@@ -10,7 +10,7 @@ public class Utilities
     {
         if (max == min)
         {
-            throw new ArgumentException("Max and min cannot be the same value.");
+            return 1;
         }
         return ((value - min) / (max - min));
     }
