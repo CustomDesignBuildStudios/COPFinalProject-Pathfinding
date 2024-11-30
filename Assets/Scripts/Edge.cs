@@ -94,22 +94,26 @@ public class Edge {
         {
             if (currentState == AlgoState.unvisited)
             {
+                lineRenderer.sortingOrder = 0;
                 lineRenderer.startColor = SettingsManager.Instance.lineDefaultColor;
                 lineRenderer.endColor = SettingsManager.Instance.lineDefaultColor;
             }
             else if (currentState == AlgoState.visited)
             {
+                lineRenderer.sortingOrder = 1;
                 lineRenderer.startColor = SettingsManager.Instance.lineVisitedColor;
                 lineRenderer.endColor = SettingsManager.Instance.lineVisitedColor;
             }
             else if (currentState == AlgoState.traversed)
             {
+                lineRenderer.sortingOrder = 2;
                 lineRenderer.startColor = SettingsManager.Instance.lineTraversalColor;
                 lineRenderer.endColor = SettingsManager.Instance.lineTraversalColor;
             }
         }
         else
         {
+            lineRenderer.sortingOrder = -1;
             lineRenderer.startColor = SettingsManager.Instance.lineNotWalkableColor;
             lineRenderer.endColor = SettingsManager.Instance.lineNotWalkableColor;
         }

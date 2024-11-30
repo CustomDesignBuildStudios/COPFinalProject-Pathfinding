@@ -33,6 +33,7 @@ public class PoolManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
+        agents = new List<NPCAgent>();
         edges = new List<GameObject>();
         nodes = new List<GameObject>();
     }

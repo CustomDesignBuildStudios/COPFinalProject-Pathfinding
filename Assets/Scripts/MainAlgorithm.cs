@@ -5,6 +5,7 @@ using UnityEngine;
 
 public abstract class MainAlgorithm : MonoBehaviour
 {
+
     //Reconstruct path to the start point
     //And visualize it
     public static IEnumerator ReconstructPath(Dictionary<Node, (Node toNode, Edge withEdge)> parentMap, Node destination, Action<List<Node>> callback)
