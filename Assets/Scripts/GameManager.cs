@@ -112,7 +112,12 @@ public class GameManager : MonoBehaviour
     //Called by the ui button
     public void RunGraph()
     {
-        if (isRunning) return;
+        if (isRunning)
+        {
+            isRunning = false;
+            StopAllCoroutines();
+            graph.ResetGraph();
+        }
         isRunning = true;
         timesRan += 1;
         graphHasChanged = false;
@@ -124,7 +129,7 @@ public class GameManager : MonoBehaviour
         SettingsManager.Instance.dataTypes = (DataTypes)dataDropdown.value;
 
         SettingsManager.Instance.graphicalType = (GraphicalTypes)graphicalDropdown.value;
-        Debug.Log((int)SettingsManager.Instance.graphicalType);
+        //Debug.Log((int)SettingsManager.Instance.graphicalType);
 
         int prevSize = SettingsManager.Instance.GetSize();
         SettingsManager.Instance.SetSize(sizeDropdown.value);
@@ -178,7 +183,7 @@ public class GameManager : MonoBehaviour
 
 
             if(graph != null) graph.ResetGraph();
-            Debug.Log(graphHasChanged);
+            //Debug.Log(graphHasChanged);
             if (SettingsManager.Instance.dataTypes == DataTypes.AdjList)
             {
                 graph = AdjListCreator.CreateGraph();

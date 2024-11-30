@@ -37,7 +37,7 @@ public class PoolManager : MonoBehaviour
         edges = new List<GameObject>();
         nodes = new List<GameObject>();
 
-        StartCoroutine(Setup());
+        //StartCoroutine(Setup());
     }
 
     public IEnumerator Setup()

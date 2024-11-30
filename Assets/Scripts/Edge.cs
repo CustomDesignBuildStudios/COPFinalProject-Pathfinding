@@ -81,7 +81,7 @@ public class Edge {
     }
     public void ActivateGrahpicalGO()
     {
-        Debug.Log("ActivateGrahpicalGO");
+        //Debug.Log("ActivateGrahpicalGO");
         if (go == null)
         {
             go = PoolManager.Instance.GetEdge();
@@ -91,8 +91,9 @@ public class Edge {
         lineRenderer.SetPosition(0, source.GetPosition());
         lineRenderer.SetPosition(1, destination.GetPosition());
         float size = Utilities.GetPercentage(weight, SettingsManager.Instance.minWeight, SettingsManager.Instance.maxWeight);
-        lineRenderer.startWidth = size * SettingsManager.Instance.maxLineSize;
-        lineRenderer.endWidth = size * SettingsManager.Instance.maxLineSize;
+        //Debug.Log(size);
+        lineRenderer.startWidth = 3 + size * SettingsManager.Instance.maxLineSize;
+        lineRenderer.endWidth = 3 + size * SettingsManager.Instance.maxLineSize;
 
         if (source.GetIsWalkable())
         {

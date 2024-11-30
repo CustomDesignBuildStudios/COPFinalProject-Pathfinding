@@ -76,8 +76,8 @@ public class AdjListCreator
                             string newNodeKey = Utilities.CreateKey(node.GetX() + (x * SettingsManager.Instance.gridSize), node.GetZ() + (z * SettingsManager.Instance.gridSize));
                             if (nodes.ContainsKey(newNodeKey))
                             {
-                                Debug.Log("ssdf");
-                                graph.AddEdge(node, nodes[newNodeKey], UnityEngine.Random.Range(SettingsManager.Instance.minWeight, SettingsManager.Instance.maxWeight));
+                                //Debug.Log("ssdf");
+                                graph.AddEdge(node, nodes[newNodeKey], SettingsManager.Instance.minWeight);
                             }
                         }
                         else if (SettingsManager.Instance.graphTypes == GraphTypes.EightGrid)
@@ -85,15 +85,15 @@ public class AdjListCreator
                             string newNodeKey = Utilities.CreateKey(node.GetX() + (x * SettingsManager.Instance.gridSize), node.GetZ() + (z * SettingsManager.Instance.gridSize));
                             if (nodes.ContainsKey(newNodeKey))
                             {
-                                Debug.Log("Effefe");
-                                graph.AddEdge(node, nodes[newNodeKey], UnityEngine.Random.Range(SettingsManager.Instance.minWeight, SettingsManager.Instance.maxWeight));
+                                //Debug.Log("Effefe");
+                                graph.AddEdge(node, nodes[newNodeKey], SettingsManager.Instance.minWeight);
                             }
                         }
                     }
                 }
             }
         }
-        else if (SettingsManager.Instance.graphTypes == GraphTypes.Terrain1)
+        else if ((int)(SettingsManager.Instance.graphTypes) > 2)
         {
             TerrainData terrainData = SettingsManager.Instance.GetTerrain().terrainData;
             int width = terrainData.heightmapResolution;
@@ -150,9 +150,10 @@ public class AdjListCreator
                                     Mathf.Pow(currentNode.GetPosition().z - newNodePosition.z, 2)
                                 );
 
-                                float slopePercentage = horizontalDistance > 0 ? Mathf.Abs(elevationDiff / horizontalDistance) * 100 : 100f;
-
+                                float slopePercentage = (horizontalDistance > 0 ? Mathf.Abs(elevationDiff / horizontalDistance) * 100 : 100f) / 100f;
+                                //Debug.Log(slopePercentage);
                                 float weight = slopePercentage * (SettingsManager.Instance.maxWeight - SettingsManager.Instance.minWeight);
+                                //Debug.Log(weight);
                                 graph.AddEdge(currentNode, graph.GetNodes()[newNodeKey], weight);
                             }
                         }
