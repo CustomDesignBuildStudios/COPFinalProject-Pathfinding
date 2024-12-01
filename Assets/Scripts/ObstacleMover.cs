@@ -61,6 +61,8 @@ public class ObstacleMover : MonoBehaviour
     {
         selectedObstacle = obstacle;
         obstacleRenderer = selectedObstacle.GetComponent<Renderer>();
+        Obstacle ob = selectedObstacle.GetComponent<Obstacle>();
+        ob.isSelected = true;
 
         if (obstacleRenderer != null)
         {
@@ -86,6 +88,9 @@ public class ObstacleMover : MonoBehaviour
     {
         if (selectedObstacle != null)
         {
+            Obstacle ob = selectedObstacle.GetComponent<Obstacle>();
+            ob.isSelected = false;
+
             selectedObstacle.position = newPosition;
             GameManager.Instance.ObstacleWasMoved();
         }

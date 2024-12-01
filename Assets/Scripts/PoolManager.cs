@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,7 @@ public class PoolManager : MonoBehaviour
     //All variables
     private List<GameObject> edges;
     private List<GameObject> nodes;
-    private List<NPCAgent> agents;
+    public List<NPCAgent> agents;
 
     public int maxNodesAllowed = 10000;
     public int maxEdgesAllowed = 10000;
@@ -74,11 +75,17 @@ public class PoolManager : MonoBehaviour
                 return agent;  // Return an inactive node to reuse
             }
         }
+        NPCAgent npc = null;
+        for (int i = 0; i < 10; i ++)
+        {
+            GameObject newNPCGO = Instantiate(agentPrefab, GameManager.Instance.GetRandomNodeOnGraph(false).GetPosition(), Quaternion.identity);
+            npc = newNPCGO.GetComponent<NPCAgent>();
+            agents.Add(npc);
+            newNPCGO.SetActive(false);
 
-        GameObject newNPCGO = Instantiate(agentPrefab,GameManager.Instance.GetRandomNodeOnGraph(false).GetPosition(),Quaternion.identity);
-        NPCAgent npc = newNPCGO.GetComponent<NPCAgent>();   
+        }
 
-        agents.Add(npc);
+        npc.gameObject.SetActive(true);
         return npc;
     }
 

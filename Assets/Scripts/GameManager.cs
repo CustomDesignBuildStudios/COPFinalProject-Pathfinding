@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
     //Event handle
     public delegate void EventHandler();
     public event EventHandler graphObstaclesUpdatedEvent;
+    public event EventHandler graphUpdatedEvent;
     float npcAgentTimer = 1000;
     public Queue<NPCAgent> agents = new Queue<NPCAgent>();
 
@@ -65,40 +66,46 @@ public class GameManager : MonoBehaviour
         if(graph == null) return null;
         return graph.GetRandom(includeNotWalkable);
     }
+
+    private RunReport currentReport;
+    public void GetNewReport()
+    {
+        currentReport = new RunReport(
+            SettingsManager.Instance.dataTypes,
+            SettingsManager.Instance.algoTypes,
+            SettingsManager.Instance.graphTypes,
+            SettingsManager.Instance.density,
+            SettingsManager.Instance.minWeight,
+            SettingsManager.Instance.maxWeight,
+            SettingsManager.Instance.GetSize(),
+            SettingsManager.Instance.gridSize,
+            SettingsManager.Instance.maxLineSize
+        );
+    }
+
     //Request path
     //Returns true or false if was successful or is busy
     public bool GetPath(Node start, Node end, Action<List<Node>> callback)
     {
-        RunReport report = new RunReport(
-    SettingsManager.Instance.dataTypes,
-    SettingsManager.Instance.algoTypes,
-    SettingsManager.Instance.graphTypes,
-    SettingsManager.Instance.density,
-    SettingsManager.Instance.minWeight,
-    SettingsManager.Instance.maxWeight,
-    SettingsManager.Instance.GetSize(),
-    SettingsManager.Instance.gridSize,
-    SettingsManager.Instance.maxLineSize,
-    0
-    );
+
 
 
         if (graph == null || isRunning == true) return false;
         if (SettingsManager.Instance.algoTypes == AlgoTypes.BFS)
         {
-            StartCoroutine(BreadthFirstSearch.BFS_OnGraph(report,graph, start, end, callback));
+            StartCoroutine(BreadthFirstSearch.BFS_OnGraph(currentReport, graph, start, end, callback));
         }
         else if (SettingsManager.Instance.algoTypes == AlgoTypes.DFS)
         {
-            StartCoroutine(DepthFirstSearch.DFS_OnGraph(report,graph, start, end, callback));
+            StartCoroutine(DepthFirstSearch.DFS_OnGraph(currentReport, graph, start, end, callback));
         }
         else if (SettingsManager.Instance.algoTypes == AlgoTypes.Dijkstra)
         {
-            StartCoroutine(DijkstraAlgorithm.Dijkstra_OnGraph(report,graph, start, end, callback));
+            StartCoroutine(DijkstraAlgorithm.Dijkstra_OnGraph(currentReport, graph, start, end, callback));
         }
         else if (SettingsManager.Instance.algoTypes == AlgoTypes.AStar)
         {
-            StartCoroutine(AStarAlgorithm.AStar_OnGraph(report,graph, start, end, callback));
+            StartCoroutine(AStarAlgorithm.AStar_OnGraph(currentReport, graph, start, end, callback));
         }
         return true;
     }
@@ -112,6 +119,7 @@ public class GameManager : MonoBehaviour
     //Called by the ui button
     public void RunGraph()
     {
+        
         if (isRunning)
         {
             isRunning = false;
@@ -128,8 +136,7 @@ public class GameManager : MonoBehaviour
         if (SettingsManager.Instance.dataTypes != (DataTypes)dataDropdown.value) graphHasChanged = true;
         SettingsManager.Instance.dataTypes = (DataTypes)dataDropdown.value;
 
-        SettingsManager.Instance.graphicalType = (GraphicalTypes)graphicalDropdown.value;
-        //Debug.Log((int)SettingsManager.Instance.graphicalType);
+
 
         int prevSize = SettingsManager.Instance.GetSize();
         SettingsManager.Instance.SetSize(sizeDropdown.value);
@@ -143,8 +150,26 @@ public class GameManager : MonoBehaviour
 
         graphHasChanged = true;/////
 
-        if (SettingsManager.Instance.graphicalType != (GraphicalTypes)graphicalDropdown.value) graphicalHasChanged = true;
-        SettingsManager.Instance.graphicalType = (GraphicalTypes)graphicalDropdown.value;
+
+        //Disable visualize if going to slow system
+        if ((int)graphicalDropdown.value > 1 && sizeDropdown.value > 1)
+        {
+            graphicalDropdown.value = 1;
+            graphicalHasChanged = true;
+            SettingsManager.Instance.graphicalType = GraphicalTypes.PathOnly;
+        }
+        else if((int)SettingsManager.Instance.agentTypes > 1)
+        {
+            graphicalDropdown.value = 0;
+            graphicalHasChanged = true;
+            SettingsManager.Instance.graphicalType = GraphicalTypes.None;
+        }
+        else
+        {
+            if (SettingsManager.Instance.graphicalType != (GraphicalTypes)graphicalDropdown.value) graphicalHasChanged = true;
+            SettingsManager.Instance.graphicalType = (GraphicalTypes)graphicalDropdown.value;
+        }
+
 
         SettingsManager.Instance.SetVisualizeSpeed(visualizeDropdown.value);
         if (visualizeDropdown.value == 0) SettingsManager.Instance.visualize = false;
@@ -154,23 +179,10 @@ public class GameManager : MonoBehaviour
         if (currentCoroutine != null) StopCoroutine(currentCoroutine);
 
 
-
-        RunReport report = new RunReport(
-            SettingsManager.Instance.dataTypes,
-            SettingsManager.Instance.algoTypes,
-            SettingsManager.Instance.graphTypes,
-            SettingsManager.Instance.density,
-            SettingsManager.Instance.minWeight,
-            SettingsManager.Instance.maxWeight,
-            SettingsManager.Instance.GetSize(),
-            SettingsManager.Instance.gridSize,
-            SettingsManager.Instance.maxLineSize,
-            0
-            );
-
-
         if (graphHasChanged || timesRan == 1)
         {
+            GetNewReport();
+
             for (int i = 0; i < SettingsManager.Instance.terrains.Length; i++)
             {
                 SettingsManager.Instance.terrains[i].gameObject.SetActive(false);
@@ -207,6 +219,7 @@ public class GameManager : MonoBehaviour
         float startTime = Time.realtimeSinceStartup;
 
 
+        graphUpdatedEvent?.Invoke();
         if (SettingsManager.Instance.agentTypes != AgentsType.User)
         {
             isRunning = false;
@@ -219,7 +232,7 @@ public class GameManager : MonoBehaviour
 
         if (SettingsManager.Instance.algoTypes == AlgoTypes.BFS)
         {
-            currentCoroutine = StartCoroutine(BreadthFirstSearch.BFS_OnGraph(report, graph, startNode, endNode, (result) =>
+            currentCoroutine = StartCoroutine(BreadthFirstSearch.BFS_OnGraph(currentReport, graph, startNode, endNode, (result) =>
             {
                 float endTime = Time.realtimeSinceStartup;
                 //dataPoints.Add(report);
@@ -231,7 +244,7 @@ public class GameManager : MonoBehaviour
         }
         else if (SettingsManager.Instance.algoTypes == AlgoTypes.DFS)
         {
-            currentCoroutine = StartCoroutine(DepthFirstSearch.DFS_OnGraph(report, graph, startNode, endNode, (result) =>
+            currentCoroutine = StartCoroutine(DepthFirstSearch.DFS_OnGraph(currentReport, graph, startNode, endNode, (result) =>
             {
                 float endTime = Time.realtimeSinceStartup;
                 //dataPoints.Add(report);
@@ -241,7 +254,7 @@ public class GameManager : MonoBehaviour
         }
         else if (SettingsManager.Instance.algoTypes == AlgoTypes.Dijkstra)
         {
-            currentCoroutine = StartCoroutine(DijkstraAlgorithm.Dijkstra_OnGraph(report, graph, startNode, endNode, (result) =>
+            currentCoroutine = StartCoroutine(DijkstraAlgorithm.Dijkstra_OnGraph(currentReport, graph, startNode, endNode, (result) =>
             {
                 float endTime = Time.realtimeSinceStartup;
                 //dataPoints.Add(report);
@@ -251,7 +264,7 @@ public class GameManager : MonoBehaviour
         }
         else if (SettingsManager.Instance.algoTypes == AlgoTypes.AStar)
         {
-            currentCoroutine = StartCoroutine(AStarAlgorithm.AStar_OnGraph(report, graph, startNode, endNode, (result) =>
+            currentCoroutine = StartCoroutine(AStarAlgorithm.AStar_OnGraph(currentReport, graph, startNode, endNode, (result) =>
             {
                 float endTime = Time.realtimeSinceStartup;
                 //dataPoints.Add(report);

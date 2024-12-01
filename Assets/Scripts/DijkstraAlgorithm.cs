@@ -82,10 +82,10 @@ public class DijkstraAlgorithm : MainAlgorithm
             //If the destination node is reached, reconstruct the path
             if (currentNode == destination)
             {
-                report.nodesVisited = visited.Count;
-                //report.pathLength = parentMap.Count;
                 float endTime = Time.realtimeSinceStartup;
-                report.timeToRun = endTime - startTime;
+                report.UpdateReport(endTime - startTime, visited.Count);
+
+
                 yield return ReconstructPath(report,parentMap, destination, callback);
                 ReportsManager.Instance.AddReport(report);
                 yield break;

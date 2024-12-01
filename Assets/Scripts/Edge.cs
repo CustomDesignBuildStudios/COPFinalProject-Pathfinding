@@ -29,6 +29,12 @@ public class Edge {
     {
         ResetMaterial();
     }
+    public void ResetSameEdgeAndNode()
+    {
+        ResetMaterial();
+        source.ResetSameNode();
+        destination.ResetSameNode();
+    }
     //Reset edge entirely
     //Cuases it to go to garbage collection
     public void ResetEdge()
@@ -40,6 +46,16 @@ public class Edge {
         lineRenderer = null;
     }
 
+    public void ResetEdgeAndNode()
+    {
+        source.ResetNode();
+        destination.ResetNode();
+        source = null;
+        destination = null;
+        if (go != null) go.SetActive(false);
+        go = null;
+        lineRenderer = null;
+    }
     //Getter / Setters
     public Node GetSource()
     {

@@ -66,10 +66,8 @@ public class BreadthFirstSearch : MainAlgorithm
             //chect if front of queue is destination
             if (current == destination)
             {
-                report.nodesVisited = visited.Count;
-                //report.pathLength = parentMap.Count;
                 float endTime = Time.realtimeSinceStartup;
-                report.timeToRun = endTime - startTime;
+                report.UpdateReport(endTime - startTime, visited.Count);
                 yield return ReconstructPath(report,parentMap, destination, callback);
                 ReportsManager.Instance.AddReport(report);
                 yield break;

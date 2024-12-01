@@ -98,6 +98,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waypointTolerance: 1
   isGettingPath: 0
-  moveSpeed: 7
+  moveSpeed: 50
   requestNewPathTime: 2
-  timeToGetNewPath: 2

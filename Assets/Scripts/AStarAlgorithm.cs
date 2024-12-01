@@ -104,7 +104,7 @@ public class AStarAlgorithm : MainAlgorithm
         priorityQueue.Add(new AStarNode(source, hCosts[source], 0)); 
 
 
-               
+
         while (priorityQueue.Count > 0)
         {
             //Get min of priority queue
@@ -114,10 +114,8 @@ public class AStarAlgorithm : MainAlgorithm
             //if destination reach reconstruct path
             if (currentNode.node == destination)
             {
-                report.nodesVisited = visited.Count;
-                //report.pathLength = parentMap.Count;
                 float endTime = Time.realtimeSinceStartup;
-                report.timeToRun = endTime - startTime;
+                report.UpdateReport(endTime - startTime, visited.Count);
                 yield return ReconstructPath(report,parentMap, destination, callback);
                 ReportsManager.Instance.AddReport(report);
                 yield break;

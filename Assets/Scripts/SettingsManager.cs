@@ -212,8 +212,8 @@ public class SettingsManager : MonoBehaviour
         if (agentTypes == AgentsType.One) return 1;
         else if (agentTypes == AgentsType.Five) return 5;
         else if (agentTypes == AgentsType.Hundred) return 100;
-        else if (agentTypes == AgentsType.Thousand) return 500;
-        else if (agentTypes == AgentsType.TenThousand) return 1000;
+        else if (agentTypes == AgentsType.Thousand) return 1000;
+        else if (agentTypes == AgentsType.TenThousand) return 2000;
         return 0;
 
 

@@ -23,6 +23,7 @@ public class NPCAgent : MonoBehaviour
     //Subscribes to graph updated event
     void Start()
     {
+        GameManager.Instance.graphUpdatedEvent += RequestNewPath;
         GameManager.Instance.graphObstaclesUpdatedEvent += RequestNewPath;
         timeToGetNewPath = requestNewPathTime;
     }
@@ -87,17 +88,22 @@ public class NPCAgent : MonoBehaviour
         if (this.gameObject.activeSelf)
         {
             isGettingPath = true;
-            if (currentNode == null)
-            {
-                currentNode = GameManager.Instance.GetClosestNode(this.transform.position);
-                endNode = GameManager.Instance.GetRandomNodeOnGraph(false);
-            }
+            //if (currentNode == null && currentNode.)
+            //{
+            //    currentNode = GameManager.Instance.GetClosestNode(this.transform.position);
+            //    endNode = GameManager.Instance.GetRandomNodeOnGraph(false);
+            //}
+            currentNode = GameManager.Instance.GetClosestNode(this.transform.position);
+            endNode = GameManager.Instance.GetRandomNodeOnGraph(false);
             bool isGetting = GameManager.Instance.GetPath(currentNode, endNode, (result) =>
             {
-                pathIndex = 0;
-                path = result;
+                if(result != null && result.Count > 0)
+                {
+                    pathIndex = 0;
+                    path = result;
+                    currentNode = result[pathIndex];
+                }
                 isGettingPath = false;
-                currentNode = result[pathIndex];
             });
             if (isGetting == false) isGettingPath = false;
         }

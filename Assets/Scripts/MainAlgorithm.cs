@@ -14,11 +14,13 @@ public abstract class MainAlgorithm : MonoBehaviour
         Node currentNode = destination;
         Edge currentEdge = null;
 
+        int pathLength = 0;
         while (currentNode != null)
         {
             path.Add(currentNode);
-            report.pathLength += 1;
-            //Debug.Log(report.pathLength);
+            pathLength += 1;
+
+
             if (currentEdge != null) currentEdge.TraverseEdge();
             if (SettingsManager.Instance.visualize) yield return new WaitForSeconds(SettingsManager.Instance.GetVisualizeSpeed());
 
@@ -36,7 +38,7 @@ public abstract class MainAlgorithm : MonoBehaviour
                 break;
             }
         }
-
+        report.FinishRunReport(pathLength);
         path.Reverse();
         callback(path);
     }
