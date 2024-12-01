@@ -6,7 +6,12 @@ using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.PlayerSettings.Switch;
 
-
+/// <summary>
+/// RunReport
+/// Holds the data for each report
+/// Settings and Results
+/// If using agents, each time agent requests path the report will update
+/// </summary>
 public class RunReport
 {
     public DataTypes dataTypes;
@@ -43,9 +48,10 @@ public class RunReport
     public int totalPathLength;
 
 
-    //public float avgerageFPS;
     public ReportTextUI textUI;
 
+
+    //Updates the report with the run time and nodes visited
     public void UpdateReport(float timeToRun, int nodesVisited)
     {
         runCount++;
@@ -65,6 +71,7 @@ public class RunReport
         avgTimeToRun = totalTimeToRun / runCount;
 
     }
+    //finishes report by adding path length
     public void FinishRunReport(int pathLength)
     {
         totalPathLength += pathLength;
@@ -72,6 +79,8 @@ public class RunReport
         if (pathLength < minPathLength) minPathLength = pathLength;
 
     }
+
+    //Constructor
     public RunReport(DataTypes dataTypes, AlgoTypes algoType, GraphTypes graphTypes,int density, int minWeight, int maxWeight, int size, int gridSize, float maxLineSize)
     {
         this.runCount = 0;
@@ -114,7 +123,9 @@ public class RunReport
 
 
 
-
+/// <summary>
+/// Manages the reports and ui
+/// </summary>
 public class ReportsManager : MonoBehaviour
 {
     // Singleton 
@@ -140,15 +151,19 @@ public class ReportsManager : MonoBehaviour
     public GameObject textPrefabGO;
     public GameObject reportPanelGO;
 
+    // Toggles reports panel ui
     public void ToggleReports()
     {
         if(reportPanelGO.activeSelf) reportPanelGO.SetActive (false);
         else reportPanelGO.SetActive (true);
     }
+    //Adds report to ui
     public void AddReport(RunReport report)
     {
 
         lastRunUIText.text = $"Last Run: {report.lastTimeToRun}";
+
+        // if report does not have ui create it
         if(report.textUI == null)
         {
             GameObject textGO = Instantiate(textPrefabGO, reportsUIHolder);
@@ -156,8 +171,8 @@ public class ReportsManager : MonoBehaviour
             report.textUI = reportText;
         }
 
+        //update report ui text
         report.textUI.resultsText.text = $"Run Times: {report.runCount} | Avg Time: {Math.Round(report.avgTimeToRun, 5)} | Avg Path: {Math.Round(report.avgPathLength, 5)} | Avg Visited: {Math.Round(report.avgNodesVisited, 5)}";
-
 
         report.textUI.settingsText.text = $"Settings: " +
             $"{Enum.GetName(typeof(AlgoTypes), report.algoType)} | " +

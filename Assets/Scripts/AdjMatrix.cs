@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Unity.VisualScripting.Member;
 
+/// <summary>
+/// Adj Matrix
+/// TODO NOT FINISHED
+/// </summary>
 public class AdjMatrix : Graph
 {
     private Edge[,] edgeMatrix;

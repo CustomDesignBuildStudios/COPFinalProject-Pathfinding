@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 /// <summary>
 /// Edge List - Data Structure
-/// Holds a 
+/// TODO NOT FINISHED
 /// </summary>
 public class EdgeListGraph: Graph
 {
