@@ -18,6 +18,9 @@ public class RTSCamera : MonoBehaviour
     public float minX;
     public float minZ;
 
+    public float minAngle;
+    public float maxAngle; 
+
     private void Update()
     {
         HandleZoom();
@@ -34,6 +37,7 @@ public class RTSCamera : MonoBehaviour
             float zoomAmount = scroll * zoomSpeed * Time.deltaTime;
             Vector3 newLocalPosition = mainCamera.transform.position + mainCamera.transform.forward * zoomAmount;
 
+
             mainCamera.transform.position = newLocalPosition;
         }
     }
@@ -49,6 +53,13 @@ public class RTSCamera : MonoBehaviour
             //Rotate the parent object
             cameraParent.Rotate(Vector3.up, horizontal * rotationSpeed * Time.deltaTime, Space.World);
             cameraParent.Rotate(Vector3.right, -vertical * rotationSpeed * Time.deltaTime, Space.Self);
+
+            if (cameraParent.localEulerAngles.x > maxAngle)
+                cameraParent.localEulerAngles = new Vector3(maxAngle, cameraParent.localEulerAngles.y, 0);
+
+            else if (cameraParent.localEulerAngles.x < minAngle)
+                cameraParent.localEulerAngles = new Vector3(minAngle, cameraParent.localEulerAngles.y, 0);
+
         }
     }
 
