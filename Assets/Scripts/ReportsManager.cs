@@ -65,7 +65,6 @@ public class RunReport
         if (nodesVisited < minNodesVisited) minNodesVisited = nodesVisited;
 
         avgNodesVisited = totalNodesVisited / runCount;
-        avgPathLength = totalPathLength / runCount;
         avgTimeToRun = totalTimeToRun / runCount;
 
     }
@@ -75,6 +74,8 @@ public class RunReport
         totalPathLength += pathLength;
         if (pathLength > maxPathLength) maxPathLength = pathLength;
         if (pathLength < minPathLength) minPathLength = pathLength;
+
+        avgPathLength = totalPathLength / runCount;
 
     }
 
@@ -170,7 +171,7 @@ public class ReportsManager : MonoBehaviour
         }
 
         //update report ui text
-        report.textUI.resultsText.text = $"Run Times: {report.runCount} | Avg Time: {Math.Round(report.avgTimeToRun, 5)} | Avg Path: {Math.Round(report.avgPathLength, 5)} | Avg Visited: {Math.Round(report.avgNodesVisited, 5)}";
+        report.textUI.resultsText.text = $"Run Times: {report.runCount} | Avg Time: {Math.Round(report.avgTimeToRun, 5)} | Avg Path: {Math.Round(report.avgPathLength, 1)} | Avg Visited: {Math.Round(report.avgNodesVisited, 1)}";
 
         report.textUI.settingsText.text = $"Settings: " +
             $"{Enum.GetName(typeof(AlgoTypes), report.algoType)} | " +

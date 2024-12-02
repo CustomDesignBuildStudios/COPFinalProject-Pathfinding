@@ -7,6 +7,8 @@ using UnityEditor.Experimental.GraphView;
 using static UnityEngine.RectTransform;
 /// <summary>
 /// Handles Bellford for all data structures
+/// TODO fix the speed the algo runs at
+/// Optimize
 /// </summary>
 public class BellfordAlgorithm : MainAlgorithm
 {
@@ -56,63 +58,64 @@ public class BellfordAlgorithm : MainAlgorithm
         Dictionary<string, float> distancesToNodes = new Dictionary<string, float>();
         Dictionary<Node, (Node toNode, Edge withEdge)> parentMap = new Dictionary<Node, (Node toNode, Edge withEdge)>();
 
+        List<Edge> allEdges = new List<Edge>();
+        foreach (var node in graph.GetNodes())
+        {
+            if (node.Value.GetIsWalkable() == false) continue;
+            distancesToNodes[node.Key] = float.MaxValue;
+            allEdges.AddRange(node.Value.GetNeighbors());
+        }
+        distancesToNodes[source.GetKey()] = 0;
+        int visited = 0;
+
+        //Relax edges repeatedly
 
         foreach (var node in graph.GetNodes())
         {
-            distancesToNodes[node.Key] = float.MaxValue;
-        }
-        distancesToNodes[source.GetKey()] = 0;
-
-
-        //Relax edges repeatedly
-        for (int i = 0; i < graph.GetNodes().Count - 1; i++)
-        {
-            foreach (var node in graph.GetNodes())
+            if (node.Value.GetIsWalkable() == false) continue;
+            bool anyUpdate = false;
+            foreach (var edge in allEdges)
             {
-                if (node.Value.GetIsWalkable() == false) continue;
 
-                node.Value.VisitNode();
+                if (!edge.GetSource().GetIsWalkable() || !edge.GetDestination().GetIsWalkable())continue;
+                visited++;
+                //Relax edge
+                string sourceKey = edge.GetSource().GetKey();
+                string destKey = edge.GetDestination().GetKey();
+
+                if (distancesToNodes[sourceKey] != float.MaxValue &&
+                    distancesToNodes[sourceKey] + edge.GetWeight() < distancesToNodes[destKey])
+                {
+                    distancesToNodes[destKey] = distancesToNodes[sourceKey] + edge.GetWeight();
+
+                    //Track the path
+                    parentMap[edge.GetDestination()] = (edge.GetSource(), edge);
+                    anyUpdate = true;
+                }
+
+                //Visualization steps
+                edge.GetSource().VisitNode();
                 if (SettingsManager.Instance.visualize) yield return new WaitForSeconds(SettingsManager.Instance.GetVisualizeSpeed());
 
+                edge.VisitEdge();
+                if (SettingsManager.Instance.visualize) yield return new WaitForSeconds(SettingsManager.Instance.GetVisualizeSpeed());
 
-
-                foreach (var edge in graph.GetNode(node.Key).GetNeighbors())
-                {
-                    if (edge.GetDestination().GetIsWalkable() == false) continue;
-
-                    edge.VisitEdge();
-                    if (SettingsManager.Instance.visualize) yield return new WaitForSeconds(SettingsManager.Instance.GetVisualizeSpeed());
-
-                    if (distancesToNodes[node.Key] != float.MaxValue &&
-                        distancesToNodes[node.Key] + edge.GetWeight() < distancesToNodes[edge.GetDestination().GetKey()])
-                    {
-                        distancesToNodes[edge.GetDestination().GetKey()] = distancesToNodes[node.Key] + edge.GetWeight();
-                        //Tracks the path
-                        parentMap[edge.GetDestination()] = (node.Value, edge); 
-
-                    }
-                }
+                edge.GetDestination().VisitNode();
+                if (SettingsManager.Instance.visualize) yield return new WaitForSeconds(SettingsManager.Instance.GetVisualizeSpeed());
             }
+            
+            if (!anyUpdate) break;
         }
 
-        //foreach (var node in graph.GetNodes())
-        //{
-        //    foreach (var edge in graph.GetNode(node.Key).GetNeighbors())
-        //    {
-        //        if (distancesToNodes[node.Key] != float.MaxValue &&
-        //            distancesToNodes[node.Key] + edge.GetWeight() < distancesToNodes[edge.GetDestination().GetKey()])
-        //        {
-        //            callback(null);
-        //            yield break;
-        //        }
-        //    }
-        //}
 
         float endTime = Time.realtimeSinceStartup;
-        report.UpdateReport(endTime - startTime, graph.GetNodes().Count);
+        report.UpdateReport(endTime - startTime, visited);
 
 
         yield return ReconstructPath(report, parentMap, destination, callback);
+
+        Debug.Log(report.totalPathLength);
+        Debug.Log(report.avgPathLength);
         ReportsManager.Instance.AddReport(report);
     }
 

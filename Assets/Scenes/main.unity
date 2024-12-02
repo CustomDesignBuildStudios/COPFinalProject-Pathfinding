@@ -2576,8 +2576,6 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: Dijkstra's Algorithm
       m_Image: {fileID: 0}
-    - m_Text: Bellman-Ford
-      m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

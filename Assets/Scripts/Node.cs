@@ -111,24 +111,22 @@ public class Node
     //Graphical Functions
     public void ResetMaterial()
     {
-        //Debug.Log("ResetMaterial");
         UpdateGraphical(AlgoState.unvisited);
     }
     public void VisitNode()
     {
-        //Debug.Log("VisitNode");
         UpdateGraphical(AlgoState.visited);
     }
     public void TraverseNode()
     {
-        //Debug.Log("TraverseNode");
         UpdateGraphical(AlgoState.traversed);
     }
     public void NotWalkableNode()
     {
-        //Debug.Log("NotWalkableNode");
         UpdateGraphical(AlgoState.unwalkable);
     }
+
+    //Update the graphical state of the node
     public void UpdateGraphical(AlgoState state)
     {
         currentState = state;
@@ -137,6 +135,8 @@ public class Node
         else if (currentState == AlgoState.traversed && (int)SettingsManager.Instance.graphicalType >= 1) ActivateGrahpicalGO();
         else DeActivateGrahpicalGO();
     }
+    //Reactivate the nodes graphical obj
+    //Get from pool or update material
     public void ActivateGrahpicalGO()
     {
         if (go == null)
@@ -166,6 +166,7 @@ public class Node
         }
 
     }
+    //Send node back to pool manager
     public void DeActivateGrahpicalGO()
     {
         if(go != null) go.SetActive(false);

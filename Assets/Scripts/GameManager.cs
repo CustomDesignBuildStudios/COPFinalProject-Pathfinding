@@ -294,14 +294,17 @@ public class GameManager : MonoBehaviour
             npcAgentTimer = 0.01f;
             int desiredAgentCount = SettingsManager.Instance.GetAgentCount();
 
-            if (agents.Count > desiredAgentCount)
+            for (int i = 0; i < 20; i++)
             {
-                NPCAgent agent = agents.Dequeue();
-                agent.DisableAgent();
-            }
-            else if(agents.Count < desiredAgentCount)
-            {
-                agents.Enqueue(PoolManager.Instance.GetAgent());
+                if (agents.Count > desiredAgentCount)
+                {
+                    NPCAgent agent = agents.Dequeue();
+                    agent.DisableAgent();
+                }
+                else if (agents.Count < desiredAgentCount)
+                {
+                    agents.Enqueue(PoolManager.Instance.GetAgent());
+                }
             }
         }
     }

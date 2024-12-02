@@ -9,11 +9,14 @@ using UnityEngine;
 /// </summary>
 public class AdjList : Graph
 {
+    //Dict for easy access
+    //Each node contains a list of edges
     private Dictionary<string, Node> nodes;
     public override int GetSize()
     {
         return nodes.Count;
     }
+    //Gives the pool manager all the nodes and edges
     public override void ResetGraph()
     {
         foreach(var node in nodes)
@@ -22,6 +25,7 @@ public class AdjList : Graph
         }
         nodes = new Dictionary<string, Node>();
     }
+    //Only resets the materials for reuse
     public override void ResetSameGraph()
     {
         foreach (var node in nodes)
