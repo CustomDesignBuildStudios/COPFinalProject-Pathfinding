@@ -2,7 +2,6 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor.Search;
 /// <summary>
 /// Handles Dijkstra for all data structures
 /// </summary>

@@ -1,9 +1,6 @@
 using System.Collections.Generic;
-using System.IO;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
+
 using UnityEngine;
-using UnityEngine.AI;
 
 public class NPCAgent : MonoBehaviour
 {
