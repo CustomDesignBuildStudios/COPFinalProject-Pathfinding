@@ -107,6 +107,10 @@ public class GameManager : MonoBehaviour
         {
             StartCoroutine(AStarAlgorithm.AStar_OnGraph(currentReport, graph, start, end, callback));
         }
+        else if (SettingsManager.Instance.algoTypes == AlgoTypes.BellmanFord)
+        {
+            StartCoroutine(BellfordAlgorithm.Bellford_OnGraph(currentReport, graph, start, end, callback));
+        }
         return true;
     }
 
@@ -234,10 +238,7 @@ public class GameManager : MonoBehaviour
         {
             currentCoroutine = StartCoroutine(BreadthFirstSearch.BFS_OnGraph(currentReport, graph, startNode, endNode, (result) =>
             {
-                float endTime = Time.realtimeSinceStartup;
-                //dataPoints.Add(report);
                 isRunning = false;
-
             }));
 
 
@@ -246,8 +247,6 @@ public class GameManager : MonoBehaviour
         {
             currentCoroutine = StartCoroutine(DepthFirstSearch.DFS_OnGraph(currentReport, graph, startNode, endNode, (result) =>
             {
-                float endTime = Time.realtimeSinceStartup;
-                //dataPoints.Add(report);
                 isRunning = false;
 
             }));
@@ -256,8 +255,6 @@ public class GameManager : MonoBehaviour
         {
             currentCoroutine = StartCoroutine(DijkstraAlgorithm.Dijkstra_OnGraph(currentReport, graph, startNode, endNode, (result) =>
             {
-                float endTime = Time.realtimeSinceStartup;
-                //dataPoints.Add(report);
                 isRunning = false;
 
             }));
@@ -266,11 +263,17 @@ public class GameManager : MonoBehaviour
         {
             currentCoroutine = StartCoroutine(AStarAlgorithm.AStar_OnGraph(currentReport, graph, startNode, endNode, (result) =>
             {
-                float endTime = Time.realtimeSinceStartup;
-                //dataPoints.Add(report);
                 isRunning = false;
             }));
         }
+        else if (SettingsManager.Instance.algoTypes == AlgoTypes.BellmanFord)
+        {
+            currentCoroutine = StartCoroutine(BellfordAlgorithm.Bellford_OnGraph(currentReport, graph, startNode, endNode, (result) =>
+            {
+                isRunning = false;
+            }));
+        }
+
     }
 
 

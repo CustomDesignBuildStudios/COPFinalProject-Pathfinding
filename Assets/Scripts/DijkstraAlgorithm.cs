@@ -19,25 +19,25 @@ public class DijkstraAlgorithm : MainAlgorithm
         }
         else if (graph is EdgeListGraph edgeList)
         {
-            yield return BFS_EdgeList( report, graph as EdgeListGraph, source, destination, callback);
+            yield return Dijkstra_EdgeList( report, graph as EdgeListGraph, source, destination, callback);
             yield break;
         }
         else if (graph is AdjMatrix adjMatrix)
         {
-            yield return BFS_AdjMatrix( report, graph as AdjMatrix, source, destination, callback);
+            yield return Dijkstra_AdjMatrix( report, graph as AdjMatrix, source, destination, callback);
             yield break;
         }
         yield return null;
     }
 
     //Dijkstra on a adjMatrix
-    private static IEnumerator BFS_AdjMatrix(RunReport report, AdjMatrix graph, Node source, Node destination, Action<List<Node>> callback)
+    private static IEnumerator Dijkstra_AdjMatrix(RunReport report, AdjMatrix graph, Node source, Node destination, Action<List<Node>> callback)
     {
         yield return null;
         yield break;
     }
     //Dijkstra on a EdgeList
-    private static IEnumerator BFS_EdgeList(RunReport report, EdgeListGraph graph, Node source, Node destination, Action<List<Node>> callback)
+    private static IEnumerator Dijkstra_EdgeList(RunReport report, EdgeListGraph graph, Node source, Node destination, Action<List<Node>> callback)
     {
         yield return null;
         yield break;

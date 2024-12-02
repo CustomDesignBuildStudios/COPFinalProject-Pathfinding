@@ -6,9 +6,9 @@ using UnityEngine;
 public abstract class MainAlgorithm : MonoBehaviour
 {
 
-    //Reconstruct path to the start point
-    //And visualize it
-    public static IEnumerator ReconstructPath(RunReport report,  Dictionary<Node, (Node toNode, Edge withEdge)> parentMap, Node destination, Action<List<Node>> callback)
+        //Reconstruct path to the start point
+        //And visualize it
+        public static IEnumerator ReconstructPath(RunReport report,  Dictionary<Node, (Node toNode, Edge withEdge)> parentMap, Node destination, Action<List<Node>> callback)
     {
         List<Node> path = new List<Node>();
         Node currentNode = destination;

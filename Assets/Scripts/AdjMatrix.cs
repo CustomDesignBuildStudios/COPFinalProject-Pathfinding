@@ -70,5 +70,8 @@ public class AdjMatrix : Graph
     {
         return nodes;
     }
-
+    public override Node GetNode(string key)
+    {
+        return null;
+    }
 }

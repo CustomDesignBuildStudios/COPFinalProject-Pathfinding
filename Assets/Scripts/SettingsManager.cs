@@ -44,7 +44,7 @@ public abstract class Graph
     public abstract void ResetGraph();
     public abstract void ResetSameGraph();
     public abstract Dictionary<string, Node> GetNodes();
-
+    public abstract Node GetNode(string key);
 
     //Get a random start and end point for NPCs
     public (Node start, Node end) GetRandomStartEnd()

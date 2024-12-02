@@ -54,4 +54,8 @@ public class AdjList : Graph
     {
         return nodes;
     }
+    public override Node GetNode(string key)
+    {
+        return nodes[key];
+    }
 }

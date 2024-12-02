@@ -71,4 +71,8 @@ public class EdgeListGraph: Graph
         Edge edge = new Edge(source, destination, weight);
         edges.Add(edge);
     }
+    public override Node GetNode(string key)
+    {
+        return null;
+    }
 }
