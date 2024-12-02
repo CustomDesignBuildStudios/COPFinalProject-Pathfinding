@@ -159,7 +159,7 @@ public class ReportsManager : MonoBehaviour
     public void AddReport(RunReport report)
     {
 
-        lastRunUIText.text = $"Last Run: {report.lastTimeToRun}";
+        lastRunUIText.text = $"Last Run: {Math.Round(report.lastTimeToRun,5)}";
 
         // if report does not have ui create it
         if(report.textUI == null)
