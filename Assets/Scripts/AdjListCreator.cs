@@ -171,6 +171,18 @@ public class AdjListCreator
                                 //Debug.Log(slopePercentage);
                                 float weight = slopePercentage * (SettingsManager.Instance.maxWeight - SettingsManager.Instance.minWeight);
 
+                                if (slopePercentage > .5f)
+                                {
+                                    weight = SettingsManager.Instance.maxWeight;
+                                }
+                                else if(slopePercentage > .2f)
+                                {
+                                    weight = 100;
+                                }
+                                else
+                                {
+                                    weight = 1;
+                                }
 
                                 //Debug.Log(weight);
                                 graph.AddEdge(currentNode, graph.GetNodes()[newNodeKey], weight);

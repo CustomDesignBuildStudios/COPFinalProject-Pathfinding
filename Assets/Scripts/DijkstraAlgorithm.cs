@@ -100,6 +100,7 @@ public class DijkstraAlgorithm : MainAlgorithm
             //Add neighbors to queue
             foreach (var edge in currentNode.GetNeighbors())
             {
+
                 Node neighbor = edge.GetDestination();
                 float newDistance = currentDistance + edge.GetWeight();
 

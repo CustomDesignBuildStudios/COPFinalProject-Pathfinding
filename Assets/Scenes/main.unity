@@ -2678,7 +2678,7 @@ MonoBehaviour:
   graphicalType: 2
   density: 2
   minWeight: 1
-  maxWeight: 100
+  maxWeight: 10000
   gridSize: 20
   visualize: 1
   maxLineSize: 3
@@ -3863,7 +3863,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!218 &658453709
 Terrain:
   m_ObjectHideFlags: 0
@@ -7028,7 +7028,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!218 &1244512466
 Terrain:
   m_ObjectHideFlags: 0
