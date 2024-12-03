@@ -1505,6 +1505,8 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: Maze Terrain
       m_Image: {fileID: 0}
+    - m_Text: Alps
+      m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2664,6 +2666,7 @@ MonoBehaviour:
   terrains:
   - {fileID: 658453709}
   - {fileID: 1244512466}
+  - {fileID: 8063867631719814332}
   nodeDefaultMaterial: {fileID: 2100000, guid: 63cfbed54fdcf7b4783b291b95ecbbd8, type: 2}
   nodeVisitedMaterial: {fileID: 2100000, guid: 5a09112b5c5ea5c4fbe4511b6c6ca0bb, type: 2}
   nodeTraversalMaterial: {fileID: 2100000, guid: e9e1a150ff84720479bcd3cab6fb7c61, type: 2}
@@ -3858,12 +3861,12 @@ GameObject:
   - component: {fileID: 658453709}
   - component: {fileID: 658453710}
   m_Layer: 6
-  m_Name: Terrain
+  m_Name: Basic
   m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!218 &658453709
 Terrain:
   m_ObjectHideFlags: 0
@@ -7023,12 +7026,12 @@ GameObject:
   - component: {fileID: 1244512466}
   - component: {fileID: 1244512467}
   m_Layer: 6
-  m_Name: Terrain (1)
+  m_Name: Maze
   m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!218 &1244512466
 Terrain:
   m_ObjectHideFlags: 0
@@ -11816,6 +11819,99 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &361554878241400875
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2149484388816831385}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2149484388816831385
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 361554878241400875}
+  - component: {fileID: 8063867631719814332}
+  - component: {fileID: 8874771684687718045}
+  m_Layer: 6
+  m_Name: Alps
+  m_TagString: Terrain
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483646
+  m_IsActive: 0
+--- !u!218 &8063867631719814332
+Terrain:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2149484388816831385}
+  m_Enabled: 1
+  serializedVersion: 6
+  m_TerrainData: {fileID: 15600000, guid: af83a677b833a2a4da92da23dec59797, type: 2}
+  m_TreeDistance: 5000
+  m_TreeBillboardDistance: 50
+  m_TreeCrossFadeLength: 5
+  m_TreeMaximumFullLODCount: 50
+  m_DetailObjectDistance: 80
+  m_DetailObjectDensity: 1
+  m_HeightmapPixelError: 5
+  m_SplatMapDistance: 1000
+  m_HeightmapMinimumLODSimplification: 0
+  m_HeightmapMaximumLOD: 0
+  m_ShadowCastingMode: 2
+  m_DrawHeightmap: 1
+  m_DrawInstanced: 0
+  m_DrawTreesAndFoliage: 1
+  m_StaticShadowCaster: 0
+  m_IgnoreQualitySettings: 0
+  m_ReflectionProbeUsage: 1
+  m_MaterialTemplate: {fileID: 2100000, guid: 4463b14c6b79157468713585c50e6f88, type: 2}
+  m_BakeLightProbesForTrees: 1
+  m_PreserveTreePrototypeLayers: 0
+  m_DeringLightProbesForTrees: 1
+  m_ReceiveGI: 1
+  m_ScaleInLightmap: 0.0256
+  m_LightmapParameters: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
+  m_GroupingID: 0
+  m_RenderingLayerMask: 1
+  m_AllowAutoConnect: 1
+  m_EnableHeightmapRayTracing: 1
+  m_EnableTreesAndDetailsRayTracing: 0
+  m_TreeMotionVectorModeOverride: 3
+--- !u!154 &8874771684687718045
+TerrainCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2149484388816831385}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_TerrainData: {fileID: 15600000, guid: af83a677b833a2a4da92da23dec59797, type: 2}
+  m_EnableTreeColliders: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -11832,6 +11928,7 @@ SceneRoots:
   - {fileID: 744920384}
   - {fileID: 658453711}
   - {fileID: 1244512468}
+  - {fileID: 361554878241400875}
   - {fileID: 369077193}
   - {fileID: 1895018538}
   - {fileID: 2130658376}
