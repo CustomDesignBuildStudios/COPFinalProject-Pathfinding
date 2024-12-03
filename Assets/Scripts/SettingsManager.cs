@@ -25,7 +25,7 @@ public enum AlgoTypes
 }
 public enum GraphTypes
 {
-    Random, EightGrid, FourGrid, BasicTerrain, MazeTerrain, Terrain3
+    Random, EightGrid, FourGrid, BasicTerrain, MazeTerrain, AlpsTerrain
 }
 
 public enum GraphicalTypes
