@@ -2679,7 +2679,7 @@ MonoBehaviour:
   agentTypes: 0
   graphTypes: 3
   graphicalType: 2
-  density: 2
+  density: 1
   minWeight: 1
   maxWeight: 10000
   gridSize: 20
