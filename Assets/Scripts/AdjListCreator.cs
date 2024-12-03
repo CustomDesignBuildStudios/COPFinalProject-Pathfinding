@@ -35,22 +35,31 @@ public class AdjListCreator
             {
                 //no disconnected nodes
                 int edges = (int)UnityEngine.Random.Range(1, SettingsManager.Instance.density);
-                while (edges > 0)
-                {
-                    //Connec to random node
-                    System.Random random = new System.Random();
-                    int index = random.Next(nodes.Count); 
-                    var randomNode = nodes.ElementAt(index); 
 
-                    if (randomNode.Value != node)
+                
+                for (int x = -1; x < 3; x++)
+                {
+                    for (int z = -1; z < 3; z++)
                     {
-                        bool success = graph.AddEdge(node, randomNode.Value, UnityEngine.Random.Range(SettingsManager.Instance.minWeight, SettingsManager.Instance.maxWeight));
-                        if (success)
+                        int randomInt = UnityEngine.Random.Range(1, 10);
+                        if (x == 0 && z == 0)
                         {
-                            edges--;
+
+                        }
+                        else if(randomInt > 7)
+                        {
+                            string newNodeKey = Utilities.CreateKey(node.GetX() + (x * SettingsManager.Instance.gridSize), node.GetZ() + (z * SettingsManager.Instance.gridSize));
+                            if (nodes.ContainsKey(newNodeKey))
+                            {
+                                graph.AddEdge(node, nodes[newNodeKey], SettingsManager.Instance.minWeight);
+                            }
                         }
                     }
                 }
+
+
+
+
             }
         }
         //Grid creation
